@@ -1,9 +1,10 @@
 # WebDevelopment
 
 # How to Start
-Clone the repo using following command :
+Clone the student branch repo using following command :
 ```
-git clone https://github.com/webdev3211/WebDevelopment.git
+git clone --single-branch --branch student https://github.com/stepupanalytics/WebDevelopment.git
+
 ```
 
 In root directory of project run the command this will install the required modules:
