@@ -6,6 +6,10 @@ const passport = require("passport");
 
 const app = express();
 
+// Body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 // DB config
 const db = require("./config/keys").mongoURI;
 
@@ -23,9 +27,8 @@ app.get("/", (req, res) => res.send("Helllo")); // get route test
 
 app.use("/api/users", users);
 
-app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`success on port ${port}`));
