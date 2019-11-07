@@ -10,7 +10,6 @@ git clone --single-branch --branch student https://github.com/stepupanalytics/We
 In root directory of project run the command this will install the required modules:
 ```
 npm i
-nodemon
 ```
 
 # To run React frontend 
