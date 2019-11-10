@@ -1,5 +1,7 @@
 const express = require("express");
 const users = require("./routes/api/users");
+const profile = require("./routes/api/profile");
+
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
@@ -15,7 +17,11 @@ const db = require("./config/keys").mongoURI;
 
 //connect to Mongo
 mongoose
-  .connect(db, { useUnifiedTopology: true, useNewUrlParser: true })
+  .connect(db, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useFindAndModify: false
+  })
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
@@ -26,6 +32,8 @@ require("./config/passport")(passport);
 app.get("/", (req, res) => res.send("Helllo")); // get route test
 
 app.use("/api/users", users);
+app.use("/api/profile", profile);
+
 
 
 app.use(bodyParser.json());

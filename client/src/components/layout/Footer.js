@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <div className="mt-20">
 
-            <footer
+            {/* <footer
                 style={
                     {
                         position: 'fixed',
@@ -17,7 +17,7 @@ export default function Footer() {
                 }
                 className="text-white mt-4 p-3 text-center">
                 Copyright &copy; {new Date().getFullYear()} Step Up Analytics
-            </footer>
+            </footer> */}
 
         </div>
     )
