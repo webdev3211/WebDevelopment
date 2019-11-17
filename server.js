@@ -5,6 +5,9 @@ const profile = require("./routes/api/profile");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const cors = require('cors');
+
+const fileupload = require('express-fileupload')
 
 const app = express();
 
@@ -26,11 +29,18 @@ mongoose
   .catch(err => console.log(err));
 
 app.use(passport.initialize()); // passport middleware
+app.use(cors());
 
 require("./config/passport")(passport);
 
-app.get("/", (req, res) => res.send("Helllo")); // get route test
 
+
+app.get("/", (req, res) => {
+  res.send("Helllo");
+
+}); // get route test
+
+app.use(fileupload())
 app.use("/api/users", users);
 app.use("/api/profile", profile);
 

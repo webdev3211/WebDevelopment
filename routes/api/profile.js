@@ -11,6 +11,7 @@ const validateProjectInput = require('../../validation/project');
 const validateExamInput = require('../../validation/exam');
 const validatePaperInput = require('../../validation/paper');
 
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
 // Load Profile Model
@@ -34,7 +35,7 @@ router.get(
         const errors = {};
 
         Profile.findOne({ user: req.user.id })
-            .populate('user', ['name'])
+            .populate('user', ['name', 'email'])
             .then(profile => {
                 if (!profile) {
                     errors.noprofile = 'There is no profile for this user';
@@ -218,6 +219,7 @@ router.post(
                 fromDate: req.body.fromDate,
                 toDate: req.body.toDate,
                 desc: req.body.desc
+
             };
 
             // Add to exp array
@@ -511,6 +513,86 @@ router.delete(
             .catch(err => res.status(404).json(err));
     }
 );
+
+
+
+
+// function toDataURL(url, callback) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.onload = function () {
+//         var reader = new FileReader();
+//         reader.onloadend = function () {
+//             callback(reader.result);
+//         }
+//         reader.readAsDataURL(xhr.response);
+//     };
+//     xhr.open('GET', url);
+//     xhr.responseType = 'blob';
+//     xhr.send();
+// }
+
+
+// router.post(
+//     '/photoupload',
+//     passport.authenticate('jwt', { session: false }),
+//     (req, res) => {
+
+//         Profile.findOne({ user: req.user.id }).then(profile => {
+
+//             // console.log(res.body);
+//             const picurl = req.body;
+//             console.log(picurl);
+
+
+
+//         });
+
+//     }
+// )
+
+router.post(
+    '/photoupload',
+    passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+
+        if (req.files === null) {
+            return res.status(400).json({ msg: 'NO file uploaded' })
+        }
+
+        const file = req.files.file;
+
+        console.log(file.name)
+
+        file.mv(`../WebDevelopment/client/public/uploads/${file.name}`, err => {
+
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+
+            res.json({ fileName: file.name, filePath: `/uploads/${file.name}` })
+
+            Profile.findOne({ user: req.user.id })
+                .then(profile => {
+                    // Get remove index
+
+                    // Save
+                    profile.profilephoto = file.name;
+
+                    profile
+                        .save().
+                        then(profile =>
+
+                            console.log('Profile uploaded successfully')
+
+                        )
+                })
+                .catch(err => console.log(err));
+        })
+
+    }
+);
+
 
 /* ================================================
 // @route   DELETE api/profile

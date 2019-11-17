@@ -3,34 +3,60 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
+import { clearCurrentProfile } from '../../actions/profileActions';
 
 class Navbar extends Component {
     onLogoutClick(e) {
         e.preventDefault();
+        this.props.clearCurrentProfile();
+
         this.props.logoutUser();
     }
 
     render() {
+        const boxStyle = {
+            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', padding: '10px',
+            backgroundColor: '#242729'
+        }
+
+
         const { isAuthenticated, user } = this.props.auth;
 
         const authLinks = (
             <ul className="navbar-nav ml-auto">
+
+
+
+
+
+
+
+                <li className="nav-item" style={{ marginTop: '6px' }}>
+
+
+
+                    <Link to="/dashboard">
+                        <img
+                            className="rounded-circle"
+                            src="https://image.ibb.co/b0m3QT/default-avatar.png"
+                            alt={user.name}
+                            style={{ width: '25px', marginRight: '8px' }}
+                            title="Your image"
+                        />{' '}
+                    </Link>
+
+                </li>
                 <li className="nav-item">
                     <Link
                         to=""
                         onClick={this.onLogoutClick.bind(this)}
                         className="nav-link"
                     >
-                        <img
-                            className="rounded-circle"
-                            src="https://image.ibb.co/b0m3QT/default-avatar.png"
-                            alt={user.name}
-                            style={{ width: '25px', marginRight: '5px' }}
-                            title="Your image"
-                        />{' '}
+
                         Logout
           </Link>
                 </li>
+
             </ul>
         );
 
@@ -50,11 +76,11 @@ class Navbar extends Component {
         );
 
         return (
-            <nav className="navbar navbar-expand-sm navbar-dark mb-4" style={{ backgroundColor: '#242729' }}>
+            <nav className="navbar navbar-expand-sm navbar-dark mb-4 sticky-top" style={boxStyle}>
 
 
-                <Link className="navbar-brand" to="/">
-                    Virtual Classroom
+                <Link className="navbar-brand" style={{ fontFamily: 'Satisfy' }} to="/">
+                    StepUp Analytics
           </Link>
                 <button
                     className="navbar-toggler"
@@ -68,10 +94,10 @@ class Navbar extends Component {
                 <div className="collapse navbar-collapse" id="mobile-nav">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/profiles">
+                            {/* <Link className="nav-link" to="/profiles">
                                 {' '}
                                 Profile
-                </Link>
+                </Link> */}
                         </li>
                     </ul>
                     {isAuthenticated ? authLinks : guestLinks}
@@ -90,4 +116,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { logoutUser })(Navbar);
+export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(Navbar);

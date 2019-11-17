@@ -45,7 +45,7 @@ module.exports = function validateProfileInput(data) {
 
 
     if (Validator.isEmpty(data.bio)) {
-        errors.bio = 'homeCity field is required';
+        errors.bio = 'Bio field is required';
     }
 
 

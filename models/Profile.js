@@ -17,7 +17,7 @@ const educationSchema = new mongoose.Schema({
     },
     toDate: {
         type: Date,
-        required: true
+        // required: true
     },
     desc: {
         type: String,
@@ -26,7 +26,11 @@ const educationSchema = new mongoose.Schema({
     photo: {
         type: String,
         // required: true
-    }
+    },
+    current: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const experienceSchema = new mongoose.Schema({
@@ -44,7 +48,7 @@ const experienceSchema = new mongoose.Schema({
     },
     toDate: {
         type: Date,
-        required: true
+        // required: true
     },
     desc: {
         type: String,
@@ -53,7 +57,11 @@ const experienceSchema = new mongoose.Schema({
     photo: {
         type: String,
         // required: true
-    }
+    },
+    current: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const projectSchema = new mongoose.Schema({
@@ -119,29 +127,29 @@ const paperSchema = new mongoose.Schema({
     }
 })
 
-const socialSchema = new mongoose.Schema({
+// const socialSchema = new mongoose.Schema({
 
 
-    youtube: {
-        type: String
-    },
-    twitter: {
-        type: String
-    },
-    facebook: {
-        type: String
-    },
-    linkedin: {
-        type: String
-    },
-    instagram: {
-        type: String
-    },
+//     youtube: {
+//         type: String
+//     },
+//     twitter: {
+//         type: String
+//     },
+//     facebook: {
+//         type: String
+//     },
+//     linkedin: {
+//         type: String
+//     },
+//     instagram: {
+//         type: String
+//     },
 
 
 
 
-})
+// })
 
 const ProfileSchema = new mongoose.Schema({
 
@@ -155,17 +163,10 @@ const ProfileSchema = new mongoose.Schema({
         max: 40
     },
 
-    // email: {
-    //     type: String
-    // },
-    // name: {
-    //     type: String
-    // },
-    // password: {
-    //     type: String
-    // },
+
+
     phoneNo: {
-        type: Number,
+        type: String,
         // required: true
     },
     dob: {
@@ -180,7 +181,13 @@ const ProfileSchema = new mongoose.Schema({
         type: String
     },
     bio: {
+
+
         type: String
+    },
+    profilephoto: {
+        type: String,
+        default: 'default-avatar.png'
     },
 
     followers: {
@@ -191,7 +198,6 @@ const ProfileSchema = new mongoose.Schema({
     following: {
         type: String,
         default: 0
-
     },
 
     education: {
@@ -210,8 +216,22 @@ const ProfileSchema = new mongoose.Schema({
         type: [paperSchema]
     },
     social: {
-        type: [socialSchema]
-    }
+        youtube: {
+            type: String
+        },
+        twitter: {
+            type: String
+        },
+        facebook: {
+            type: String
+        },
+        linkedin: {
+            type: String
+        },
+        instagram: {
+            type: String
+        }
+    },
 
 })
 
