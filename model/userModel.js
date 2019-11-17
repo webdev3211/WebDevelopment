@@ -15,10 +15,15 @@ const UserSchema = new mongoose.Schema({
         required: "Password is required",
         minlength: 8
     },
-    saltSecret : String
+    phoneNo: {
+        type: Number,
+        required: "Phone Number is required",
+        minlength: 10
+    },
+    saltSecret: String
 });
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function(next) {
     bcrypt.genSalt(10, (err, salt) => {
         if (!err) {
             bcrypt.hash(this.password, salt, (err, hash) => {
