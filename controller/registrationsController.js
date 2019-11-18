@@ -1,34 +1,37 @@
+const mongoose = require('mongoose');
 const Registrations = require('../model/registrations').RegistrationModel;
-
 const router = require('express').Router();
+
 
 /*
  @routes 
-        registrations : all the registrations
-        registrationsbydate: filtering registrations by date send pagenumber query and dateBegin and dateEnd as query
-
+        1. registrations : all the registrations
+        2. registrationsbydate: filtering registrations by date send pagenumber query and dateBegin (format yyyy-mm-dd) and dateEnd (format yyyy-mm-dd) as query ::: example : http://localhost:3000/registrationsbydate?pageno=1&dateBegin=2019-11-19
+        3.registrationsbycourse : filtering registrations by courses send pagenumber query and courseId as query
 */
 
-router.get('registrations', async(req, res) => {
+router.get('/registrations', async(req, res) => {
 
-    pageNo = req.query.pageno;
+    pageno = req.query.pageno;
     pagesize = 15;
     registrations = await Registrations.find().skip(pagesize * (pageno - 1)).limit(pagesize);
     res.send(registrations);
+
 });
 
-router.get('registrationsbydate', async(req, res) => {
+router.get('/registrationsbydate', async(req, res) => {
 
-    pageNo = req.query.pageno;
+    pageno = req.query.pageno;
     pagesize = 15;
-    datebegin = req.query.dateBegin;
-    dateEnd = req.query.dateEnd;
-    registrations = await Registrations.find({ dateofRegistration: { $gte: dateBegin, $lte: dateEnd } }).skip(pagesize * (pageno - 1)).limit(pagesize);
+    dateBegin = new Date(String(req.query.dateBegin));
+    dateEnd = new Date(req.query.dateEnd || Date.now());
 
+    registrations = await Registrations.find({ dateofRegistration: { $gte: dateBegin, $lte: dateEnd } }).skip(pagesize * (pageno - 1)).limit(pagesize);
+    res.send(registrations);
 });
 
 
-router.get('registrationsbycourse', async(req, res) => {
+router.get('/registrationsbycourse', async(req, res) => {
 
     pageNo = req.query.pageno;
     pagesize = 15;
@@ -38,8 +41,8 @@ router.get('registrationsbycourse', async(req, res) => {
 });
 
 
-router.post('addRegistrations', (req, res) => {
-
+router.post('/addRegistrations', (req, res) => {
+    console.log("Reg");
     registrations = new Registrations({
         studentId: req.body.studentId,
         courseId: req.body.courseId,

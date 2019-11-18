@@ -14,9 +14,9 @@ app.use(cors());
 app.use(bodyparser.json());
 
 app.use('/', userController);
+app.use('/', registrationsController);
 app.use('/', courseController);
 app.use('/', instituteController);
 app.use('/', eventController);
-app.use('/', registrationsController);
 
-app.listen(3000, () => { console.log("LISTENING AT PORT " + 3000); });
+app.listen(3000, () => { console.log("LISTENING AT PORT  3000"); });
