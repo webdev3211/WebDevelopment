@@ -4,7 +4,7 @@ const CourseSchema = new mongoose.Schema({
     name: {
         type: String
     },
-    category: {
+    duration: {
         type: String
     },
     startdate: {
@@ -15,6 +15,9 @@ const CourseSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    venue: { type: String },
+    regLastDate: { type: Date },
+    fee: { type: Number },
     desc: { type: String },
     file: { type: String }
 

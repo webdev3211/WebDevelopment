@@ -27,7 +27,7 @@ var upload = multer({ storage: store }).single('file');
 
 
 router.get('/courses', async(req, res) => {
-    pageNumber = req.query.pageNo;
+    pageNumber = req.query.pageno;
     console.log(pageNumber);
     pageSize = 10;
     findCourses = await Course.find().skip((pageNumber - 1) * pageSize).limit(pageSize);
@@ -65,6 +65,9 @@ router.post('/addCourse', async(req, res) => {
         startDate: req.body.startDate,
         endDate: req.body.endDate,
         desc: req.body.desc,
+        fee: req.body.fee,
+        venue: req.body.venue,
+        regLastDate: req.body.regLastDate,
         file: filename
     });
 
@@ -90,7 +93,10 @@ router.put('/updateCourse/:id', async(req, res) => {
     course.startDate = req.body.startDate || course.startDate;
     course.endDate = req.body.endDate || course.endDate;
     course.desc = req.body.desc || course.desc;
-
+    course.fee = req.body.fee || course.fee;
+    course.venue = req.body.venue || course.venue;
+    course.regLastDate = req.body.regLastDate || course.regLastDate;
+    console.log(course);
 
     course.save((err, docs) => {
         if (!err) {
