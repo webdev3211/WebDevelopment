@@ -3,7 +3,6 @@ const Events = require('../model/Event').EventModel;
 const router = require('express').Router();
 const Institute = require('../model/institute').InstituteModel;
 var multer = require('multer');
-var path = require('path');
 
 
 /* 

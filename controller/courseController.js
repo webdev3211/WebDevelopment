@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Course = require('../model/courses');
 const router = require('express').Router();
 var multer = require('multer');
-var path = require('path');
+
 
 
 /* 

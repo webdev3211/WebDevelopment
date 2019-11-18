@@ -3,7 +3,6 @@ const Institute = require('../model/institute').InstituteModel;
 const router = require('express').Router();
 
 var multer = require('multer');
-var path = require('path');
 
 
 /* 
