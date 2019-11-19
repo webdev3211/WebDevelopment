@@ -5,9 +5,9 @@ const profile = require("./routes/api/profile");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
-const cors = require('cors');
+const cors = require("cors");
 
-const fileupload = require('express-fileupload')
+const fileupload = require("express-fileupload");
 
 const app = express();
 
@@ -33,18 +33,14 @@ app.use(cors());
 
 require("./config/passport")(passport);
 
-
-
 app.get("/", (req, res) => {
   res.send("Helllo");
-
 }); // get route test
 
-app.use(fileupload())
+app.use(fileupload());
 app.use("/api/users", users);
+app.use("/api/admin", admin);
 app.use("/api/profile", profile);
-
-
 
 app.use(bodyParser.json());
 
