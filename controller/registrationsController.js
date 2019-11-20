@@ -8,6 +8,7 @@ const router = require('express').Router();
         1. registrations : all the registrations
         2. registrationsbydate: filtering registrations by date send pagenumber query and dateBegin (format yyyy-mm-dd) and dateEnd (format yyyy-mm-dd) as query ::: example : http://localhost:3000/registrationsbydate?pageno=1&dateBegin=2019-11-19
         3.registrationsbycourse : filtering registrations by courses send pagenumber query and courseId as query
+        4. registrationInstitiute
 */
 
 router.get('/registrations', async(req, res) => {
