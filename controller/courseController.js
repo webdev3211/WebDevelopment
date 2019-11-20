@@ -68,6 +68,7 @@ router.post('/addCourse', async(req, res) => {
         fee: req.body.fee,
         venue: req.body.venue,
         regLastDate: req.body.regLastDate,
+        regLink: req.body.regLink,
         file: filename
     });
 
