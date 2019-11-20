@@ -19,6 +19,7 @@ const CourseSchema = new mongoose.Schema({
     regLastDate: { type: Date },
     fee: { type: Number },
     desc: { type: String },
+    regLink : {type : String},
     file: { type: String }
 
 });
