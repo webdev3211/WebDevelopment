@@ -158,7 +158,7 @@ const ProfileSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  currentInstitute: {
+  institute: {
     type: String
   },
   phoneNo: {
