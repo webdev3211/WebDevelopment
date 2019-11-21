@@ -39,7 +39,7 @@ router.get("/registrationsbycourse", async (req, res) => {
   pagesize = 15;
   reqcourseId = req.query.courseId;
   registrations = await Registrations.find({ courseId: reqcourseId })
-    .skip(pagesize * (pageno - 1))
+    .skip(pagesize * (pageNo - 1))
     .limit(pagesize);
 });
 
