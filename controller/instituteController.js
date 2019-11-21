@@ -1,9 +1,8 @@
-const mongoose = require('mongoose');
-const Institute = require('../model/institute').InstituteModel;
-const router = require('express').Router();
+const mongoose = require("mongoose");
+const Institute = require("../model/institute1").InstituteModel;
+const router = require("express").Router();
 
-var multer = require('multer');
-
+var multer = require("multer");
 
 /* 
     @routes 
@@ -15,90 +14,71 @@ var multer = require('multer');
 */
 
 var store = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './uploads/institute')
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '.' + file.originalname);
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/institute");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "." + file.originalname);
+  }
+});
+
+var upload = multer({ storage: store }).single("file");
+
+router.get("/institutes", async (req, res) => {
+  findInstitutes = await Institute.find();
+  res.send(findInstitutes);
+});
+
+router.post("/addInstitute", async (req, res) => {
+  filename = await fileupload(req, res);
+
+  var institute = new Institute({
+    name: req.body.name,
+    campusAmbassador: req.body.campusAmbassador,
+    image: filename,
+    state: req.body.state,
+    city: req.body.city,
+    website: req.body.website
+  });
+
+  institute.save((err, docs) => {
+    if (!err) {
+      res.send(docs);
+    } else {
+      console.log(JSON.stringify(err));
     }
+  });
 });
 
-var upload = multer({ storage: store }).single('file');
-
-
-
-router.get('/institutes', async(req, res) => {
-
-    findInstitutes = await Institute.find();
-    res.send(findInstitutes);
-
+router.put("/addCampusAmbassador/:id", async (req, res) => {
+  id = req.params.id;
+  var institute = await Institute.findById(id);
+  console.log(institute);
+  institute.campusAmbassador = req.body.campusAmbassador || "";
+  const result = await institute.save();
+  res.send(result);
 });
 
-
-router.post('/addInstitute', async(req, res) => {
-    filename = await fileupload(req, res);
-
-    var institute = new Institute({
-        name: req.body.name,
-        campusAmbassador: req.body.campusAmbassador,
-        image: filename,
-        state: req.body.state,
-        city: req.body.city,
-        website: req.body.website
-    });
-
-
-    institute.save((err, docs) => {
-        if (!err) {
-            res.send(docs);
-        } else {
-            console.log(JSON.stringify(err));
-        }
-    });
-
+router.put("/removeCampusAmbassador/:id", async (req, res) => {
+  id = req.params.id;
+  var institute = await Institute.findById(id);
+  console.log(institute);
+  institute.campusAmbassador = "";
+  const result = await institute.save();
+  res.send(result);
 });
-
-router.put('/addCampusAmbassador/:id', async(req, res) => {
-
-    id = req.params.id;
-    var institute = await Institute.findById(id);
-    console.log(institute);
-    institute.campusAmbassador = req.body.campusAmbassador || "";
-    const result = await institute.save();
-    res.send(result);
-
-});
-
-router.put('/removeCampusAmbassador/:id', async(req, res) => {
-
-    id = req.params.id;
-    var institute = await Institute.findById(id);
-    console.log(institute);
-    institute.campusAmbassador = "";
-    const result = await institute.save();
-    res.send(result);
-
-});
-
 
 module.exports = router;
 
-
-
 async function fileupload(req, res) {
-    return new Promise(
-        resolve => {
-            upload(req, res, (err) => {
-                if (!err) {
-                    console.log(req.file.filename);
-                    resolve(req.file.filename);
-
-                } else {
-                    console.log(JSON.stringify(err));
-                }
-            })
-
-        }
-    )
-
+  return new Promise(resolve => {
+    upload(req, res, err => {
+      if (!err) {
+        console.log(req.file.filename);
+        resolve(req.file.filename);
+      } else {
+        console.log(JSON.stringify(err));
+      }
+    });
+  });
 }

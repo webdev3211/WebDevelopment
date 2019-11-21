@@ -1,17 +1,19 @@
-const mongoose = require('mongoose');
-const CourseSchema = require('./courses').CourseSchema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
+// schema
 
-
-const InstituteSchema = new mongoose.Schema({
-    name: { type: String },
-    campusAmbassador: { type: String, default: null },
-    image: { type: String },
-    state: { type: String },
-    city: { type: String },
-    website: { type: String }
+const InstituteDropSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  campusAmbID: {
+    type: String
+  }
 });
 
-
-module.exports.InstituteSchema = InstituteSchema;
-module.exports.InstituteModel = mongoose.model("Institute", InstituteSchema);
+module.exports = InstituteDrop = mongoose.model(
+  "instituteDrop",
+  InstituteDropSchema
+);
