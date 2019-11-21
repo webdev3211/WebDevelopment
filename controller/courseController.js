@@ -77,6 +77,7 @@ router.post('/addCourse', async(req, res) => {
     course.save((err, docs) => {
         if (!err) {
             res.send(docs);
+            console.log(docs);
         } else {
             console.log(JSON.stringify(err));
         }
