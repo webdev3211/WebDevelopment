@@ -158,7 +158,9 @@ const ProfileSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-
+  institute: {
+    type: String
+  },
   phoneNo: {
     type: String
     // required: true

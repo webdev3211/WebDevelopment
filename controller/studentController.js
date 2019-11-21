@@ -1,35 +1,33 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../model/User");
-// const validateRegisterInput = require("../../validation/register");
-const Institute = require("../model/InstituteDrop");
-// const bcrypt = require("bcryptjs");
 const Profile = require("../model/Profile");
+const Institute = require("../model/institute").InstituteModel;
 
 router.get("/", (req, res) => {
   res.json("Hello from admin");
 });
 
-// admin adding Institute dropdown
-
-router.post("/registers/institute", (req, res) => {
-  const newInstitute = new Institute({
-    name: req.body.name,
-    campusAmbID: req.body.Id || ""
-  });
-  newInstitute
-    .save()
-    .then(user => res.json(user))
-    .catch(err => res.json(err));
-});
-
 // admin making a user campus ambassador
-
+// when user is made ambassador, the campusAmbassador field of his institute is also filled.
 router.put("/users/profile/campusAmbassador/:id", (req, res) => {
   const id = req.params.id;
   Profile.findByIdAndUpdate({ _id: id }, { isCampusAmbassador: true })
-    .then(user => {
-      res.json(user);
+    .then(async user => {
+      const ins = user.institute;
+      // Institute.find({ name: ins }, { campusAmbassador: id })
+      //   .then(user => {
+      //     res.json(user);
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
+      const doc = await Institute.findOne({ name: ins });
+
+      // Sets `name` and unsets all other properties
+      doc.overwrite({ campusAmbassador: id });
+      await doc.save();
+      res.json(doc);
     })
     .catch(err => res.json(err));
 });
