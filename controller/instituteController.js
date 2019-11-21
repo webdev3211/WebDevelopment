@@ -14,8 +14,6 @@ var multer = require('multer');
 
 */
 
-
-
 var store = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads/institute')
@@ -42,9 +40,13 @@ router.post('/addInstitute', async(req, res) => {
 
     var institute = new Institute({
         name: req.body.name,
-        campusAmbassador: req.body.campusAmbassador || "",
-        image: filename
+        campusAmbassador: req.body.campusAmbassador,
+        image: filename,
+        state: req.body.state,
+        city: req.body.city,
+        website: req.body.website
     });
+
 
     institute.save((err, docs) => {
         if (!err) {

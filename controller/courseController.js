@@ -6,11 +6,13 @@ var multer = require('multer');
 
 
 /* 
+
     @routes 
         1. courses : to view all course
         2. addCourse : to add new Course
         3. deleteCourse : to delete an event it take id of the institute as a parameter
         4. updateCourse : to update an event it take id of the institute as a parameter
+
 */
 
 var store = multer.diskStorage({
@@ -75,6 +77,7 @@ router.post('/addCourse', async(req, res) => {
     course.save((err, docs) => {
         if (!err) {
             res.send(docs);
+            console.log(docs);
         } else {
             console.log(JSON.stringify(err));
         }
