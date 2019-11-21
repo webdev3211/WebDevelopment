@@ -34,25 +34,22 @@ router.get("/registrationsbydate", async (req, res) => {
   res.send(registrations);
 });
 
-<<<<<<< HEAD
 router.get("/registrationsbycourse", async (req, res) => {
-  //   pageNo = req.query.pageno;
-  //   pagesize = 15;
-  //   reqcourseId = req.query.courseId;
-  registrations = Registrations.find({ courseId: 101 }).then(user =>
-    res.json(user)
-  );
-  // .skip(pagesize * (pageNo - 1))
-  // .limit(pagesize);
+  pageNo = req.query.pageno;
+  pagesize = 15;
+  reqcourseId = req.query.courseId;
+  registrations = await Registrations.find({ courseId: reqcourseId })
+    .skip(pagesize * (pageno - 1))
+    .limit(pagesize);
 });
 
 router.post("/addRegistrations", (req, res) => {
-  console.log("Reg");
   registrations = new Registrations({
     studentId: req.body.studentId,
     courseId: req.body.courseId,
     paymentId: req.body.paymentId,
-    amount: req.body.amount
+    amount: req.body.amount,
+    institute: req.body.institute
   });
 
   registrations.save((err, docs) => {
@@ -62,43 +59,6 @@ router.post("/addRegistrations", (req, res) => {
       res.status(400).send({ message: "Registrations not successfull" });
     }
   });
-=======
-
-
-
-router.get('/registrationsbycourse', async(req, res) => {
-
-    pageNo = req.query.pageno;
-    pagesize = 15;
-    reqcourseId = req.query.courseId;
-    registrations = await Registrations.find({ courseId: reqcourseId }).skip(pagesize * (pageno - 1)).limit(pagesize);
-
-});
-
-
-router.post('/addRegistrations', (req, res) => {
-
-
-
-
-    registrations = new Registrations({
-        studentId: req.body.studentId,
-        courseId: req.body.courseId,
-        paymentId: req.body.paymentId,
-        amount: req.body.amount,
-        institute: req.body.institute
-    });
-
-    registrations.save((err, docs) => {
-        if (!err) {
-            res.status(200).send({ message: "registration successful" });
-        } else {
-            res.status(400).send({ message: "Registrations not successfull" });
-        }
-    });
-
-
->>>>>>> b47f01e1af062e2b77f09c6987813d341db8182e
 });
 
 module.exports = router;
