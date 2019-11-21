@@ -5,9 +5,11 @@ const router = require('express').Router();
 
 /*
  @routes 
-        1. registrations : all the registrations
+        1. registrations : all the registrations send pageno query . eg: http://localhost:3000/registrations?:pageno=1
+
         2. registrationsbydate: filtering registrations by date send pagenumber query and dateBegin (format yyyy-mm-dd) and dateEnd (format yyyy-mm-dd) as query ::: example : http://localhost:3000/registrationsbydate?pageno=1&dateBegin=2019-11-19
-        3.registrationsbycourse : filtering registrations by courses send pagenumber query and courseId as query
+        
+        3. registrationsbycourse : filtering registrations by courses send pagenumber query and courseId as query
 */
 
 router.get('/registrations', async(req, res) => {
@@ -31,6 +33,8 @@ router.get('/registrationsbydate', async(req, res) => {
 });
 
 
+
+
 router.get('/registrationsbycourse', async(req, res) => {
 
     pageNo = req.query.pageno;
@@ -42,12 +46,16 @@ router.get('/registrationsbycourse', async(req, res) => {
 
 
 router.post('/addRegistrations', (req, res) => {
-    console.log("Reg");
+
+
+
+
     registrations = new Registrations({
         studentId: req.body.studentId,
         courseId: req.body.courseId,
         paymentId: req.body.paymentId,
-        amount: req.body.amount
+        amount: req.body.amount,
+        institute: req.body.institute
     });
 
     registrations.save((err, docs) => {
