@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../model/User");
 const Profile = require("../model/Profile");
-const Institute = require("../model/institute").InstituteModel;
+const Institute = require("../model/institute1").InstituteModel;
 
 router.get("/", (req, res) => {
   res.json("Hello from admin");
@@ -12,29 +12,20 @@ router.get("/", (req, res) => {
 // when user is made ambassador, the campusAmbassador field of his institute is also filled.
 router.put("/users/profile/campusAmbassador/:id", (req, res) => {
   const id = req.params.id;
-  Profile.findByIdAndUpdate({ _id: id }, { isCampusAmbassador: true })
-    .then(async user => {
+  Profile.findOne({ _id: id })
+    .then(user => {
       const ins = user.institute;
-      // Institute.find({ name: ins }, { campusAmbassador: id })
-      //   .then(user => {
-      //     res.json(user);
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
-      const doc = await Institute.findOne({ name: ins });
-
-      // Sets `name` and unsets all other properties
-      doc.overwrite({ campusAmbassador: id });
-      await doc.save();
-      res.json(doc);
+      Profile.findOneAndUpdate({ _id: user._id }, { isCampusAmbassador: true })
+        .then(user => res.json(user))
+        .catch(err => res.json(err));
+      Institute.findOne({ name: ins }).then(inst => {
+        console.log(id);
+        Institute.findOneAndUpdate({ _id: inst._id }, { campusAmbassador: id })
+          .then(user => console.log(user))
+          .catch(err => console.log(err));
+      });
     })
     .catch(err => res.json(err));
-  Institute.findByIdAndUpdate({ name: ins }, { campusAmbID: req.params.id })
-    .then(user => console.log(user))
-    .catch(err => {
-      console.log(err);
-    });
 });
 
 // admin getting all the users
