@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Institute = require("../model/institute1").InstituteModel;
+const Institute = require("../model/institute").InstituteModel;
 const router = require("express").Router();
 
 var multer = require("multer");

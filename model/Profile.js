@@ -161,6 +161,9 @@ const ProfileSchema = new mongoose.Schema({
   institute: {
     type: String
   },
+  courses: {
+    type: [String]
+  },
   phoneNo: {
     type: String
     // required: true

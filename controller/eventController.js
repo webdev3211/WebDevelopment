@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Events = require("../model/Event").EventModel;
 const router = require("express").Router();
-const Institute = require("../model/institute1").InstituteModel;
+const Institute = require("../model/institute").InstituteModel;
 var multer = require("multer");
 
 /* 

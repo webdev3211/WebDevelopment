@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const InstituteSchema = require("./institute1").InstituteSchema;
+const InstituteSchema = require("./institute").InstituteSchema;
 
 const EventSchema = new mongoose.Schema({
   name: {

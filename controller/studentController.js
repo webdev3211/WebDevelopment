@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../model/User");
 const Profile = require("../model/Profile");
-const Institute = require("../model/institute1").InstituteModel;
+const Institute = require("../model/institute").InstituteModel;
 
 router.get("/", (req, res) => {
   res.json("Hello from admin");
