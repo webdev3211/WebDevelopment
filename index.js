@@ -28,13 +28,13 @@ app.use(passport.initialize()); // passport middleware
 require("./config/passport")(passport);
 app.use(fileupload());
 
-app.use("/", userController);
-app.use("/", registrationsController);
-app.use("/", courseController);
-app.use("/", instituteController);
-app.use("/", eventController);
-app.use("/", studentController);
-app.use("/", profile);
+app.use("/admin", userController);
+app.use("/admin", registrationsController);
+app.use("/admin", courseController);
+app.use("/admin", instituteController);
+app.use("/admin", eventController);
+app.use("/admin", studentController);
+app.use("/profile", profile);
 app.use("/users", users);
 app.use("/course", courses);
 

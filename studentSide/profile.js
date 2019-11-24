@@ -173,7 +173,10 @@ router.post(
           }
 
           // Save Profile
-          new Profile(profileFields).save().then(profile => res.json(profile));
+          new Profile(profileFields)
+            .save()
+            .then(profile => res.json(profile))
+            .catch(err => res.json(err));
         });
       }
     });
