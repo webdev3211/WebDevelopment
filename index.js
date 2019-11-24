@@ -12,6 +12,7 @@ const instituteController = require("./controller/instituteController");
 const eventController = require("./controller/eventController");
 const registrationsController = require("./controller/registrationsController");
 const studentController = require("./controller/studentController");
+
 const profile = require("./studentSide/profile");
 const users = require("./studentSide/users");
 const courses = require("./studentSide/courseEnroll");

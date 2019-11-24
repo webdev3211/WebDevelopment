@@ -12,7 +12,8 @@ class Register extends Component {
             name: '',
             email: '',
             password: '',
-
+            institute: '',
+            role: '',
 
             errors: {}
         };
@@ -44,6 +45,8 @@ class Register extends Component {
             name: this.state.name,
             email: this.state.email,
             password: this.state.password,
+            institute: this.state.institute,
+            role: this.state.role,
 
         };
 
@@ -54,7 +57,7 @@ class Register extends Component {
         const { errors } = this.state;
 
         return (
-            <div className="register ">
+            <div className="register" style={{ marginBottom: '100px ' }}>
                 <div className="container card">
                     <div className="row card-body">
                         <div className="col-md-8 m-auto">
@@ -93,6 +96,24 @@ class Register extends Component {
                                     error={errors.password}
                                     onChange={this.onChange}
                                 />
+
+                                <TextFieldGroup
+                                    name="institute"
+                                    placeholder="Enter institute"
+                                    value={this.state.institute}
+                                    error={errors.institute}
+                                    onChange={this.onChange}
+                                />
+
+                                <TextFieldGroup
+                                    name="role"
+                                    placeholder="Enter role"
+                                    value={this.state.role}
+                                    error={errors.role}
+                                    onChange={this.onChange}
+                                />
+
+
 
                                 <input type="submit" className="btn btn-info btn-block mt-4" />
                             </form>

@@ -10,11 +10,11 @@ import Education from './Education';
 import Exam from './Exam';
 import Project from './Project';
 import Paper from './Paper';
-import Image from './Image';
+// import Image from './Image';
 import FileUpload from './FileUpload';
 
 //File uppload
-import { storage } from '../../firebase';
+// import { storage } from '../../firebase';
 
 class Dashboard extends Component {
 
@@ -97,13 +97,13 @@ class Dashboard extends Component {
 
     render() {
 
-        const style = {
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            // justifyContent: 'center'
-        }
+        // const style = {
+        //     height: '100vh',
+        //     display: 'flex',
+        //     flexDirection: 'column',
+        //     alignItems: 'center',
+        //     // justifyContent: 'center'
+        // }
 
         const boxStyle = {
             boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', padding: '10px'
