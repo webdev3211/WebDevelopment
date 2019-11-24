@@ -44,7 +44,7 @@ export const createProfile = (profileData, history) => dispatch => {
 export const photoUpload = imgg => dispatch => {
   // const k = imgg.toString();
   axios
-    .post("/studentSide/profile/photoupload", imgg)
+    .post("/profile/photoupload", imgg)
     .then(res =>
       dispatch({
         type: GET_PROFILE,
