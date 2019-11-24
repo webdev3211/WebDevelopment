@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
+const db = "mongodb://tushar:abc123@ds263307.mlab.com:63307/stepup";
 
-module.exports = mongoose.connect(
-  "mongodb://tushar:abc123@ds263307.mlab.com:63307/stepup",
-  { useNewUrlParser: true },
-  err => {
-    if (!err) console.log("MONGO DB connection Successfull . ");
-    else console.log(JSON.stringify(err, undefined, 2));
-  }
-);
+
+module.exports = mongoose
+  .connect(db, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useFindAndModify: false
+  })
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));

@@ -7,6 +7,8 @@ module.exports = function validateRegisterInput(data) {
   data.name = !isEmpty(data.name) ? data.name : '';
   data.email = !isEmpty(data.email) ? data.email : '';
   data.password = !isEmpty(data.password) ? data.password : '';
+  data.institute = !isEmpty(data.institute) ? data.institute : '';
+  data.role = !isEmpty(data.role) ? data.role : '';
 
 
   if (!Validator.isLength(data.name, { min: 2, max: 30 })) {
@@ -33,6 +35,13 @@ module.exports = function validateRegisterInput(data) {
     errors.password = 'Password must be at least 6 characters';
   }
 
+  if (Validator.isEmpty(data.role)) {
+    errors.role = 'Role field is required';
+  }
+
+  if (Validator.isEmpty(data.institute)) {
+    errors.institute = 'Institute field is required';
+  }
 
 
 

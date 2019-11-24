@@ -15,6 +15,15 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  institute: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    default: 'Student',
+    required: true
   }
 });
 

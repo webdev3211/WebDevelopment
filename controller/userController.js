@@ -22,12 +22,18 @@ Router.post('/register', (req, res) => {
         phoneNo: req.body.phoneNo
     })
 
+    console.log(admin);
+
     admin.save((err, docs) => {
         if (!err) {
             res.send(docs);
+            // return res.status(200).json({
+            //     'msg': 'Admin Registration successfull',
+            //     'success': true
+            // })
         } else
-        if (err.code === 11000)
-            res.status(422).send("duplicate Email Id Found");
+            if (err.code === 11000)
+                return res.status(422).send("duplicate Email Id Found");
 
     });
 });
