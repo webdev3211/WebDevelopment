@@ -19,8 +19,8 @@ const CourseSchema = new mongoose.Schema({
   regLastDate: { type: Date },
   fee: { type: Number },
   desc: { type: String },
-  file: { type: String },
-  studentId: { type: [String] }
+  regLink: { type: String },
+  file: { type: String }
 });
 const CourseModel = mongoose.model("course", CourseSchema);
 
