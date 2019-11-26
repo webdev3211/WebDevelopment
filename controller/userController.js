@@ -1,10 +1,19 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const _admin = require('../model/Admins');
 const express = require('express')
-const Router = express.Router();
+const router = express.Router();
+const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+const Admin = require('../model/Admins');
+const keys = require("../config/keys");
+const passport = require("passport");
+const bodyParser = require("body-parser");
+
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
 const _ = require('lodash');
-const jwtHelper = require('../jwtHelper');
+// const jwtHelper = require('../jwtHelper');
+// Load Input Validation
+const validateadminRegisterInput = require("../validation/admin/register");
+const validateadminLoginInput = require("../validation/admin/login");
 
 /*
 @routes
@@ -14,32 +23,43 @@ const jwtHelper = require('../jwtHelper');
 */
 
 
-Router.post('/register', (req, res) => {
-    var admin = new _admin({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        phoneNo: req.body.phoneNo
-    })
+router.post('/register', (req, res) => {
+    const { errors, isValid } = validateadminRegisterInput(req.body);
 
-    console.log(admin);
+    // Check Validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
 
-    admin.save((err, docs) => {
-        if (!err) {
-            res.send(docs);
-            // return res.status(200).json({
-            //     'msg': 'Admin Registration successfull',
-            //     'success': true
-            // })
-        } else
-            if (err.code === 11000)
-                return res.status(422).send("duplicate Email Id Found");
+    Admin.findOne({ email: req.body.email }).then(user => {
+        if (user) {
+            errors.email = "Email already exists";
+            return res.status(400).json(errors);
+        } else {
+            const newAdmin = new Admin({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password,
+                phoneNo: req.body.phoneNo,
+            });
 
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newAdmin.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    newAdmin.password = hash;
+                    newAdmin
+                        .save()
+                        .then(user => res.json(user))
+                        .catch(err => console.log(err));
+                });
+            });
+        }
     });
 });
 
-Router.post('/login', (req, res, next) => {
-    _admin.findOne({ email: req.body.email }, (err, doc) => {
+
+router.post('/login', (req, res, next) => {
+    Admin.findOne({ email: req.body.email }, (err, doc) => {
         if (!doc) {
             res.status(400).send("Email not registered");
         } else if (!bcrypt.compareSync(req.body.password, doc.password)) {
@@ -54,14 +74,68 @@ Router.post('/login', (req, res, next) => {
     })
 });
 
-Router.get('/adminProfile', jwtHelper.verifyToken, (req, res, next) => {
 
-    _admin.findOne({ _id: req._id },
-        (err, adminR) => {
-            if (!adminR)
-                return res.status(400).send("error login");
-            else
-                return res.status(200).json({ status: true, admin: _.pick(adminR, ['name', 'email']) })
-        })
-})
-module.exports = Router;
+// api/admin/login
+// POST route for admin login
+// router.post("/login", (req, res) => {
+//     const { errors, isValid } = validateadminLoginInput(req.body);
+
+//     // Check Validation
+//     if (!isValid) {
+//         return res.status(400).json(errors);
+//     }
+
+//     const email = req.body.email;
+//     const password = req.body.password;
+
+//     // Find user by email
+//     Admin.findOne({ email }).then(user => {
+//         // Check for user
+//         if (!user) {
+//             errors.email = "User not found";
+//             return res.status(404).json(errors);
+//         }
+
+//         // Check Password
+//         // console.log(password, user.password);
+
+//         bcrypt.compare(password, user.password).then(isMatch => {
+//             if (isMatch) {
+//                 // User Matched
+//                 const payload = { id: user.id, name: user.name }; // Create JWT Payload
+
+//                 // Sign Token
+//                 jwt.sign(
+//                     payload,
+//                     keys.secretOrKey,
+//                     { expiresIn: 3600 },
+//                     (err, token) => {
+//                         res.json({
+//                             success: true,
+//                             token: "Bearer " + token
+//                         });
+//                     }
+//                 );
+//             } else {
+//                 errors.password = "Password incorrect";
+//                 return res.status(400).json(errors);
+//             }
+//         });
+//     });
+// });
+
+
+
+// router.get('/adminProfile', jwtHelper.verifyToken, (req, res, next) => {
+
+//     Admin.findOne({ _id: req._id },
+//         (err, adminR) => {
+//             if (!adminR)
+//                 return res.status(400).send("error login");
+//             else
+//                 return res.status(200).json({ status: true, admin: _.pick(adminR, ['name', 'email']) })
+//         })
+// })
+
+
+module.exports = router;
