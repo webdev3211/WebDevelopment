@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
+import { setCurrentAdmin, logoutAdmin } from './actions/admin/authadminActions';
+
 
 import store from './store';
 
@@ -21,6 +23,11 @@ import AddEducation from './components/add-credentials/AddEducation';
 import AddProject from './components/add-credentials/AddProject';
 import AddExam from './components/add-credentials/AddExam';
 import AddPaper from './components/add-credentials/AddPaper';
+
+
+//Admin
+import adminRegister from './components/admin/auth/adminRegister';
+import adminLogin from './components/admin/auth/adminLogin';
 
 
 
@@ -57,6 +64,34 @@ if (localStorage.jwtToken) {
 }
 
 
+
+//Check for token for admin
+if (localStorage.adminjwtToken) {
+  //Set auth token header auth
+  setAuthToken(localStorage.adminjwtToken);
+
+  ///Decode token and get user info and exp
+  const decoded = jwt_decode(localStorage.adminjwtToken);
+
+  //Set user and isAuthenticated
+  store.dispatch(setCurrentUser(decoded));
+  store.dispatch(setCurrentAdmin(decoded));
+
+
+  //check for expired token
+  const currentTime = Date.now() / 1000;
+  if (decoded.exp < currentTime) {
+    //Logout the user
+    store.dispatch(logoutAdmin());
+    //clear current profile
+    // store.dispatch(clearCurrentProfile());
+
+    window.location.href = "/admin/login";
+  }
+
+}
+
+
 class App extends Component {
 
 
@@ -75,6 +110,11 @@ class App extends Component {
             <div style={{ marginTop: '120px' }}>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+
+              <Route exact path="/admin/register" component={adminRegister} />
+              <Route exact path="/admin/login" component={adminLogin} />
+
+
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
 
