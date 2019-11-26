@@ -59,16 +59,29 @@ router.post('/register', (req, res) => {
 
 
 router.post('/login', (req, res, next) => {
+
+    const { errors, isValid } = validateadminLoginInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
     Admin.findOne({ email: req.body.email }, (err, doc) => {
         if (!doc) {
-            res.status(400).send("Email not registered");
+            errors.email = "User not found";
+            return res.status(404).json(errors);
         } else if (!bcrypt.compareSync(req.body.password, doc.password)) {
-            res.status(400).send("Incorrect Password");
+            errors.password = "Password incorrect";
+            return res.status(400).json(errors);
         } else {
             token = jwt.sign({ adminId: doc._id },
                 "thisisiiasidiasdiujasdxadnsdadisjnsiadiasjdiashdaHASHKEY", { expiresIn: '1h' }
             );
-            res.status(200).json({ token: token });
+            return res.json({
+                success: true,
+                token: "Bearer " + token
+            });
 
         }
     })
