@@ -20,13 +20,13 @@ class adminLogin extends Component {
 
     componentDidMount() {
         if (this.props.admin.isAdminAuthenticated) {
-            this.props.history.push('/');
+            this.props.history.push('/admin/dashboard');
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.admin.isAdminAuthenticated) {
-            this.props.history.push('/');
+            this.props.history.push('/admin/dashboard');
         }
 
         if (nextProps.errors) {
@@ -51,6 +51,7 @@ class adminLogin extends Component {
 
     render() {
         const { errors } = this.state;
+        // console.log(this.props);
 
         return (
             <div className="login">

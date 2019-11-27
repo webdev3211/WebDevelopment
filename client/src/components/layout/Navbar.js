@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
+import { logoutAdmin } from '../../actions/admin/authadminActions';
+
 import { clearCurrentProfile } from '../../actions/profileActions';
 
 class Navbar extends Component {
@@ -11,6 +13,7 @@ class Navbar extends Component {
         this.props.clearCurrentProfile();
 
         this.props.logoutUser();
+        this.props.logoutAdmin();
     }
 
     render() {
@@ -20,7 +23,9 @@ class Navbar extends Component {
         }
 
 
-        const { isAuthenticated, user } = this.props.auth;
+        const { isAuthenticated, user, isAdminAuthenticated } = this.props.auth;
+        // const { isAdminAuthenticated } = this.props.admin;
+        // console.log(this.props);
 
         const authLinks = (
             <ul className="navbar-nav ml-auto">
@@ -100,7 +105,7 @@ class Navbar extends Component {
                 </Link> */}
                         </li>
                     </ul>
-                    {isAuthenticated ? authLinks : guestLinks}
+                    {(isAuthenticated || isAdminAuthenticated) ? authLinks : guestLinks}
                 </div>
             </nav>
         );
@@ -109,6 +114,7 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
     logoutUser: PropTypes.func.isRequired,
+    logoutAdmin: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired
 };
 
@@ -116,4 +122,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(Navbar);
+export default connect(mapStateToProps, { logoutUser, clearCurrentProfile, logoutAdmin })(Navbar);
