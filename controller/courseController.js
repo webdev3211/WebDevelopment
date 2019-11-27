@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const Course = require('../model/courses');
-const router = require('express').Router();
-var multer = require('multer');
-
-
+const express = require('express');
+const router = express.Router();
 
 /* 
 
@@ -15,19 +13,6 @@ var multer = require('multer');
 
 */
 
-var store = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './uploads/courses')
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '.' + file.originalname);
-    }
-})
-
-var upload = multer({ storage: store }).single('file');
-
-
-
 router.get('/courses', async(req, res) => {
     pageNumber = req.query.pageno;
     console.log(pageNumber);
@@ -38,40 +23,26 @@ router.get('/courses', async(req, res) => {
 });
 
 
-async function fileupload(req, res) {
-    return new Promise(
-        resolve => {
-            upload(req, res, (err) => {
-                if (!err) {
-                    console.log(req.file.filename);
-                    resolve(req.file.filename);
 
-                } else {
-                    console.log(JSON.stringify(err));
-                }
-            })
 
-        }
-    )
-
-}
 router.post('/addCourse', async(req, res) => {
 
-    filename = await fileupload(req, res);
-
-    console.log(filename);
 
     var course = new Course({
         name: req.body.name,
         category: req.body.category,
+        duration: req.body.duration,
         startDate: req.body.startDate,
+        duration: req.body.duration,
         endDate: req.body.endDate,
         desc: req.body.desc,
         fee: req.body.fee,
         venue: req.body.venue,
         regLastDate: req.body.regLastDate,
-        file: filename
+
+        file: req.body.file
     });
+
 
 
     course.save((err, docs) => {
@@ -82,6 +53,7 @@ router.post('/addCourse', async(req, res) => {
             console.log(JSON.stringify(err));
         }
     });
+
 
 });
 
@@ -99,7 +71,7 @@ router.put('/updateCourse/:id', async(req, res) => {
     course.fee = req.body.fee || course.fee;
     course.venue = req.body.venue || course.venue;
     course.regLastDate = req.body.regLastDate || course.regLastDate;
-    console.log(course);
+
 
     course.save((err, docs) => {
         if (!err) {
