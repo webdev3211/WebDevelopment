@@ -28,7 +28,7 @@ var upload = multer({ storage: store }).single('file');
 
 
 
-router.get('/courses', async(req, res) => {
+router.get('/courses', async (req, res) => {
     pageNumber = req.query.pageno;
     console.log(pageNumber);
     pageSize = 10;
@@ -55,11 +55,11 @@ async function fileupload(req, res) {
     )
 
 }
-router.post('/addCourse', async(req, res) => {
+router.post('/addCourse', async (req, res) => {
 
-    filename = await fileupload(req, res);
+    // filename = await fileupload(req, res);
 
-    console.log(filename);
+    // console.log(filename);
 
     var course = new Course({
         name: req.body.name,
@@ -71,7 +71,7 @@ router.post('/addCourse', async(req, res) => {
         venue: req.body.venue,
         regLastDate: req.body.regLastDate,
         regLink: req.body.regLink,
-        file: filename
+        file: "dummyfile"
     });
 
 
@@ -87,7 +87,7 @@ router.post('/addCourse', async(req, res) => {
 });
 
 
-router.put('/updateCourse/:id', async(req, res) => {
+router.put('/updateCourse/:id', async (req, res) => {
 
     id = req.params.id;
     var course = await Course.findById(id);
@@ -113,7 +113,7 @@ router.put('/updateCourse/:id', async(req, res) => {
 
 });
 
-router.put('/deleteCourse/:id', async(req, res) => {
+router.put('/deleteCourse/:id', async (req, res) => {
 
     id = req.params.id;
 

@@ -28,6 +28,10 @@ import AddPaper from './components/add-credentials/AddPaper';
 //Admin
 import adminRegister from './components/admin/auth/adminRegister';
 import adminLogin from './components/admin/auth/adminLogin';
+import AdminDashboard from './components/admin/admindashboard/AdminDashboard';
+import createCourse from './components/admin/courses/createCourse';
+
+
 
 
 
@@ -113,6 +117,18 @@ class App extends Component {
 
               <Route exact path="/admin/register" component={adminRegister} />
               <Route exact path="/admin/login" component={adminLogin} />
+
+
+              <Switch>
+                <PrivateRoute exact path="/admin/dashboard" component={AdminDashboard} />
+
+              </Switch>
+
+              <Switch>
+                <PrivateRoute exact path="/admin/createCourse" component={createCourse} />
+
+              </Switch>
+
 
 
               <Switch>
