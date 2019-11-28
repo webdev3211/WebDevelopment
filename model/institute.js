@@ -7,7 +7,8 @@ const InstituteSchema = new mongoose.Schema({
   image: { type: String },
   state: { type: String },
   city: { type: String },
-  website: { type: String }
+  website: { type: String },
+  class: [{ type: String }]
 });
 
 module.exports.InstituteSchema = InstituteSchema;

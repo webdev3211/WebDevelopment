@@ -159,6 +159,10 @@ const ProfileSchema = new mongoose.Schema({
     default: false
   },
   institute: {
+    type: String,
+    required: true
+  },
+  class: {
     type: String
   },
   courses: {
