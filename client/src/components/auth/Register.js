@@ -18,18 +18,20 @@ class Register extends Component {
       institute: "",
       role: "",
       options: [],
-
+      class: "",
+      options1: [],
       errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-
+  shouldComponentUpdate() {
+    return true;
+  }
   componentDidMount() {
     console.log("heelo");
     axios.get("/institute/register").then(ins => {
-      console.log(ins);
       this.setState({ options: ins.data });
     });
 
@@ -46,6 +48,12 @@ class Register extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+
+    if (this.state.institute) {
+      axios.get("/institute/register/this.state.institute").then(ins => {
+        // this.setState({ options1: ins.data });
+      });
+    }
   }
 
   onSubmit(e) {
@@ -65,6 +73,7 @@ class Register extends Component {
   render() {
     const { errors } = this.state;
     const { options } = this.state;
+    const { options1 } = this.state;
 
     return (
       <div className="register" style={{ marginBottom: "100px " }}>
@@ -111,6 +120,14 @@ class Register extends Component {
                   options={options}
                 />
 
+                <SelectListGroup
+                  name="class"
+                  placeholder="Enter class"
+                  value={this.state.class}
+                  error={errors.institute}
+                  onChange={this.onChange}
+                  options={options1}
+                />
                 <TextFieldGroup
                   name="role"
                   placeholder="Enter role"

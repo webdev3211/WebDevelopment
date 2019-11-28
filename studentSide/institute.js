@@ -9,5 +9,10 @@ router.get("/register", (req, res) => {
     .then(ins => res.json(ins))
     .catch(err => res.json(err));
 });
-
+router.get("/register/:name", (req, res) => {
+  // console.log("hello");
+  Institute.find({ name: req.params.name })
+    .then(ins => res.json(ins[0].class))
+    .catch(err => res.json(err));
+});
 module.exports = router;
