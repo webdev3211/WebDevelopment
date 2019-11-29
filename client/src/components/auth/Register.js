@@ -50,8 +50,8 @@ class Register extends Component {
     this.setState({ [e.target.name]: e.target.value });
 
     if (this.state.institute) {
-      axios.get("/institute/register/this.state.institute").then(ins => {
-        // this.setState({ options1: ins.data });
+      axios.get(`/institute/register/${this.state.institute}`).then(ins => {
+        this.setState({ options1: ins.data });
       });
     }
   }

@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const CourseSchema = require("./courses").CourseSchema;
+const classSchema = new mongoose.Schema({
+  name: { type: String }
+});
 
 const InstituteSchema = new mongoose.Schema({
   name: { type: String },
@@ -8,7 +11,7 @@ const InstituteSchema = new mongoose.Schema({
   state: { type: String },
   city: { type: String },
   website: { type: String },
-  class: [{ type: String }]
+  class: { type: [classSchema] }
 });
 
 module.exports.InstituteSchema = InstituteSchema;

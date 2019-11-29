@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Registrations = require("../model/registrations").RegistrationModel;
 const router = require("express").Router();
-
+const passport = require("passport");
 /*
  @routes 
         1. registrations : all the registrations send pageno query . eg: http://localhost:3000/registrations?:pageno=1
@@ -43,22 +43,26 @@ router.get("/registrationsbycourse", async (req, res) => {
     .limit(pagesize);
 });
 
-router.post("/addRegistrations", (req, res) => {
-  registrations = new Registrations({
-    studentId: req.body.studentId,
-    courseId: req.body.courseId,
-    paymentId: req.body.paymentId,
-    amount: req.body.amount,
-    institute: req.body.institute
-  });
+router.post(
+  "/addRegistrations",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    registrations = new Registrations({
+      studentId: req.body.studentId,
+      courseId: req.body.courseId,
+      paymentId: req.body.paymentId,
+      amount: req.body.amount,
+      institute: req.body.institute
+    });
 
-  registrations.save((err, docs) => {
-    if (!err) {
-      res.status(200).send({ message: "registration successful" });
-    } else {
-      res.status(400).send({ message: "Registrations not successfull" });
-    }
-  });
-});
+    registrations.save((err, docs) => {
+      if (!err) {
+        res.status(200).send({ message: "registration successful" });
+      } else {
+        res.status(400).send({ message: "Registrations not successfull" });
+      }
+    });
+  }
+);
 
 module.exports = router;
