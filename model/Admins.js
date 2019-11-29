@@ -22,6 +22,7 @@ const AdminSchema = new mongoose.Schema({
         required: true
         // minlength: 10
     },
+
     saltSecret: String
 });
 
