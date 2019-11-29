@@ -3,6 +3,10 @@ const Institute = require("../model/institute").InstituteModel;
 const router = require("express").Router();
 
 var multer = require("multer");
+const passport = require("passport");
+
+//validation
+const validateInstituteInput = require("../validation/admin/institute");
 
 /* 
     @routes 
@@ -13,32 +17,42 @@ var multer = require("multer");
 
 */
 
-var store = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./uploads/institute");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "." + file.originalname);
+// var store = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "./uploads/institute");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + "." + file.originalname);
+//   }
+// });
+
+// var upload = multer({ storage: store }).single("file");
+
+router.get(
+  "/institutes",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    findInstitutes = await Institute.find();
+    res.send(findInstitutes);
   }
-});
-
-var upload = multer({ storage: store }).single("file");
-
-router.get("/institutes", async (req, res) => {
-  findInstitutes = await Institute.find();
-  res.send(findInstitutes);
-});
+);
 
 router.post("/addInstitute", async (req, res) => {
-  filename = await fileupload(req, res);
+  // filename = await fileupload(req, res);
+  const { errors, isValid } = validateInstituteInput(req.body);
 
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  var Class = req.body.class.split(",");
   var institute = new Institute({
     name: req.body.name,
     campusAmbassador: req.body.campusAmbassador,
-    image: filename,
+    // image: filename,
     state: req.body.state,
     city: req.body.city,
-    website: req.body.website
+    website: req.body.website,
+    class: Class
   });
 
   institute.save((err, docs) => {
@@ -70,15 +84,15 @@ router.put("/removeCampusAmbassador/:id", async (req, res) => {
 
 module.exports = router;
 
-async function fileupload(req, res) {
-  return new Promise(resolve => {
-    upload(req, res, err => {
-      if (!err) {
-        console.log(req.file.filename);
-        resolve(req.file.filename);
-      } else {
-        console.log(JSON.stringify(err));
-      }
-    });
-  });
-}
+// async function fileupload(req, res) {
+//   return new Promise(resolve => {
+//     upload(req, res, err => {
+//       if (!err) {
+//         console.log(req.file.filename);
+//         resolve(req.file.filename);
+//       } else {
+//         console.log(JSON.stringify(err));
+//       }
+//     });
+//   });
+// }
