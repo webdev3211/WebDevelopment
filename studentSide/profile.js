@@ -515,6 +515,12 @@ router.delete(
 //     }
 // )
 
+/* ================================================
+// @route   api/photoupload
+// @desc    Profile Photo upload
+// @access  Private
+================================================ */
+
 router.post(
   "/photoupload",
   passport.authenticate("jwt", { session: false }),
@@ -567,4 +573,12 @@ router.delete(
     });
   }
 );
+
+
+
+
+
+
+
+
 module.exports = router;

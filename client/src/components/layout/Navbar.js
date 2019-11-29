@@ -8,6 +8,14 @@ import { logoutAdmin } from '../../actions/admin/authadminActions';
 import { clearCurrentProfile } from '../../actions/profileActions';
 
 class Navbar extends Component {
+
+    constructor(props) {
+        super(props);
+
+
+
+    }
+
     onLogoutClick(e) {
         e.preventDefault();
         this.props.clearCurrentProfile();
@@ -19,20 +27,32 @@ class Navbar extends Component {
     render() {
         const boxStyle = {
             boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', padding: '10px',
-            backgroundColor: '#242729'
+            // backgroundColor: '#242729'
+            backgroundColor: '#f1f1f1'
         }
 
 
-        const { isAuthenticated, user, isAdminAuthenticated } = this.props.auth;
+        const { isAuthenticated, admin, user, isAdminAuthenticated } = this.props.auth;
         // const { isAdminAuthenticated } = this.props.admin;
         // console.log(this.props);
+
+        // console.log(admin);
+
+
+
+
 
         const authLinks = (
             <ul className="navbar-nav ml-auto">
 
 
 
+                <li className="nav-item">
 
+                    <Link className="nav-link" to="/admin/dashboard" style={{ backgroundColor: '#f6f6f6', color: 'black', fontWeight: 'bold', marginRight: '13px', marginTop: '5px' }}>
+                        Dashboard
+</Link>
+                </li>
 
 
 
@@ -41,13 +61,19 @@ class Navbar extends Component {
 
 
                     <Link to="/dashboard">
+
                         <img
                             className="rounded-circle"
                             src="https://image.ibb.co/b0m3QT/default-avatar.png"
                             alt={user.name}
-                            style={{ width: '25px', marginRight: '8px' }}
+                            style={{ width: '35px', marginRight: '8px' }}
                             title="Your image"
-                        />{' '}
+                        />
+
+
+
+
+
                     </Link>
 
                 </li>
@@ -56,6 +82,7 @@ class Navbar extends Component {
                         to=""
                         onClick={this.onLogoutClick.bind(this)}
                         className="nav-link"
+                        style={{ color: 'black', fontWeight: 'bold' }}
                     >
 
                         Logout
@@ -65,26 +92,40 @@ class Navbar extends Component {
             </ul>
         );
 
+
+
         const guestLinks = (
             <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                    <Link className="nav-link" to="/register">
+                    <Link className="nav-link" to="/register" style={{ color: 'black', fontWeight: 'bold' }}>
                         Sign Up
           </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/login">
+                    <Link className="nav-link" to="/login" style={{ color: 'black', fontWeight: 'bold' }}>
                         Login
           </Link>
                 </li>
             </ul>
         );
 
+        const courseLink = (
+            // <ul className="navbar-nav pull-right">
+            <li className="nav-item ">
+                <Link className="nav-link" to="/admin/courses" style={{ backgroundColor: '#f6f6f6', color: 'black', fontWeight: 'bold', marginRight: '13px', marginTop: '5px' }}>
+                    Courses
+      </Link>
+            </li>
+
+
+            // </ul>
+        )
+
         return (
             <nav className="navbar navbar-expand-sm navbar-dark mb-4 sticky-top" style={boxStyle}>
 
 
-                <Link className="navbar-brand" style={{ fontFamily: 'Satisfy' }} to="/">
+                <Link className="navbar-brand" style={{ fontFamily: 'Satisfy', border: 'none', color: 'black', fontWeight: 'bold' }} to="/">
                     StepUp Analytics
           </Link>
                 <button
@@ -98,14 +139,19 @@ class Navbar extends Component {
 
                 <div className="collapse navbar-collapse" id="mobile-nav">
                     <ul className="navbar-nav mr-auto">
-                        <li className="nav-item">
-                            {/* <Link className="nav-link" to="/profiles">
-                                {' '}
-                                Profile
-                </Link> */}
-                        </li>
+
+
+
+
+
+                        {(isAdminAuthenticated) ? courseLink : null}
                     </ul>
+
+
+
                     {(isAuthenticated || isAdminAuthenticated) ? authLinks : guestLinks}
+
+
                 </div>
             </nav>
         );

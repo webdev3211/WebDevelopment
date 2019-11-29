@@ -7,21 +7,27 @@ const CourseSchema = new mongoose.Schema({
   duration: {
     type: String
   },
-  startdate: {
+  startDate: {
     type: Date,
     default: Date.now
   },
-  enddate: {
+  // category: {
+  //   type: String
+  // },
+  endDate: {
     type: Date,
     default: Date.now
   },
   venue: { type: String },
-  regLastDate: { type: Date },
+  regLastDate: {
+    type: Date,
+    default: Date.now
+  },
   fee: { type: Number },
   desc: { type: String },
-  regLink: { type: String },
-  file: { type: String }
+  file: { type: String, default: "https://virudhunagar.nic.in/wp-content/themes/district-theme/images/uncategorized.jpg" }
 });
+
 const CourseModel = mongoose.model("course", CourseSchema);
 
 module.exports = CourseModel;

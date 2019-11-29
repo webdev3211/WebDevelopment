@@ -30,12 +30,16 @@ import adminRegister from './components/admin/auth/adminRegister';
 import adminLogin from './components/admin/auth/adminLogin';
 import AdminDashboard from './components/admin/admindashboard/AdminDashboard';
 import createCourse from './components/admin/courses/createCourse';
+import allCourses from './components/admin/courses/allCourses';
+
 
 
 
 
 
 import PrivateRoute from './components/common/PrivateRoute';
+import PrivateRouteAdmin from './components/common/PrivateRouteAdmin';
+
 
 
 import './App.css';
@@ -106,7 +110,9 @@ class App extends Component {
 
         <Router>
           <div className="App">
+
             <Navbar />
+
 
             <Route exact path="/" component={Landing} />
 
@@ -115,20 +121,30 @@ class App extends Component {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
 
+
+              {/* Admin */}
               <Route exact path="/admin/register" component={adminRegister} />
               <Route exact path="/admin/login" component={adminLogin} />
 
 
               <Switch>
-                <PrivateRoute exact path="/admin/dashboard" component={AdminDashboard} />
+                <PrivateRouteAdmin exact path="/admin/dashboard" component={AdminDashboard} />
 
               </Switch>
 
               <Switch>
-                <PrivateRoute exact path="/admin/createCourse" component={createCourse} />
+                <PrivateRouteAdmin exact path="/admin/createCourse" component={createCourse} />
 
               </Switch>
 
+
+              <Switch>
+                <PrivateRouteAdmin exact path="/admin/courses" component={allCourses} />
+
+              </Switch>
+
+
+              {/* //  */}
 
 
               <Switch>

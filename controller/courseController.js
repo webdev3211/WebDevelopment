@@ -1,90 +1,83 @@
 const mongoose = require('mongoose');
 const Course = require('../model/courses');
-const router = require('express').Router();
-var multer = require('multer');
+const express = require('express');
+const router = express.Router();
 
 
+//Validation
+const validateCourseInput = require("../validation/admin/course");
 
 /* 
-
     @routes 
         1. courses : to view all course
         2. addCourse : to add new Course
         3. deleteCourse : to delete an event it take id of the institute as a parameter
         4. updateCourse : to update an event it take id of the institute as a parameter
-
 */
-
-var store = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './uploads/courses')
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '.' + file.originalname);
-    }
-})
-
-var upload = multer({ storage: store }).single('file');
-
-
 
 router.get('/courses', async (req, res) => {
     pageNumber = req.query.pageno;
     console.log(pageNumber);
     pageSize = 10;
     findCourses = await Course.find().skip((pageNumber - 1) * pageSize).limit(pageSize);
-
-    res.send(findCourses);
+    // console.log(findCourses.length);
+    if (findCourses.length == 0) {
+        res.status(200).json({
+            msg: 'No courses',
+            success: false
+        })
+    } else {
+        res.send(findCourses);
+    }
 });
 
 
-async function fileupload(req, res) {
-    return new Promise(
-        resolve => {
-            upload(req, res, (err) => {
-                if (!err) {
-                    console.log(req.file.filename);
-                    resolve(req.file.filename);
 
-                } else {
-                    console.log(JSON.stringify(err));
-                }
-            })
 
-        }
-    )
-
-}
 router.post('/addCourse', async (req, res) => {
 
-    // filename = await fileupload(req, res);
 
-    // console.log(filename);
+    const { errors, isValid } = validateCourseInput(req.body);
+
+
+    // Check Validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
 
     var course = new Course({
         name: req.body.name,
-        category: req.body.category,
+        // category: req.body.category,
+        duration: req.body.duration,
         startDate: req.body.startDate,
+        duration: req.body.duration,
         endDate: req.body.endDate,
         desc: req.body.desc,
         fee: req.body.fee,
         venue: req.body.venue,
         regLastDate: req.body.regLastDate,
-        regLink: req.body.regLink,
-        file: "dummyfile"
+        // file: req.body.file
     });
 
 
-    course.save((err, docs) => {
-        if (!err) {
-            res.send(docs);
-            console.log(docs);
-        } else {
-            console.log(JSON.stringify(err));
-        }
-    });
+
+    course
+        .save()
+        .then((course) => {
+
+            return res.status(200).json({
+                msg: 'Course uploaded',
+                success: true
+            })
+
+        })
+        .catch(err => {
+            return res.status(400).json(errors);
+        })
 
 });
+
 
 
 router.put('/updateCourse/:id', async (req, res) => {
@@ -93,14 +86,14 @@ router.put('/updateCourse/:id', async (req, res) => {
     var course = await Course.findById(id);
 
     course.name = req.body.name || course.name;
-    course.category = req.body.category || course.category;
+    // course.category = req.body.category || course.category;
     course.startDate = req.body.startDate || course.startDate;
     course.endDate = req.body.endDate || course.endDate;
     course.desc = req.body.desc || course.desc;
     course.fee = req.body.fee || course.fee;
     course.venue = req.body.venue || course.venue;
     course.regLastDate = req.body.regLastDate || course.regLastDate;
-    console.log(course);
+
 
     course.save((err, docs) => {
         if (!err) {
