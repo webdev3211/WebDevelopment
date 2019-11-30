@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 const Registrations = require("../model/registrations").RegistrationModel;
 const router = require("express").Router();
+const passport = require("passport");
+
+//validation
+const validateRegistrationInput = require("../validation/admin/registration");
 
 /*
  @routes 
@@ -44,6 +48,11 @@ router.get("/registrationsbycourse", async (req, res) => {
 });
 
 router.post("/addRegistrations", (req, res) => {
+  const { errors, isValid } = validateRegistrationInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   registrations = new Registrations({
     studentId: req.body.studentId,
     courseId: req.body.courseId,

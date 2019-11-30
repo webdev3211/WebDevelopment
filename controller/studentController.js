@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../model/User");
 const Profile = require("../model/Profile");
 const Institute = require("../model/institute").InstituteModel;
+const passport = require("passport");
 
 router.get("/", (req, res) => {
   res.json("Hello from admin");
@@ -10,6 +11,7 @@ router.get("/", (req, res) => {
 
 // admin making a user campus ambassador
 // when user is made ambassador, the campusAmbassador field of his institute is also filled.
+// admin access only
 router.put("/users/profile/campusAmbassador/:id", (req, res) => {
   const id = req.params.id;
   Profile.findOne({ _id: id })
@@ -44,25 +46,33 @@ router.get("/users", (req, res) => {
 });
 
 //admin getting user's profile
-router.get("/users/profile/:id", (req, res) => {
-  const id = req.params.id;
-  Profile.find({ _id: id })
-    .then(user => {
-      res.json(user);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
+router.get(
+  "/users/profile/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const id = req.params.id;
+    Profile.find({ _id: id })
+      .then(user => {
+        res.json(user);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  }
+);
 
 //admin deleting user
-router.delete("/users/:id", (req, res) => {
-  User.findByIdAndDelete({ _id: req.params.id })
-    .then(user => {
-      res.json(user);
-    })
-    .catch(err => {
-      res.json(err);
-    });
-});
+router.delete(
+  "/users/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findByIdAndDelete({ _id: req.params.id })
+      .then(user => {
+        res.json(user);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  }
+);
 module.exports = router;

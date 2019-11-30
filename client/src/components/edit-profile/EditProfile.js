@@ -21,6 +21,7 @@ class EditProfile extends Component {
             phoneNo: '',
             dob: '',
             bio: '',
+            institute: '',
             twitter: '',
             facebook: '',
             linkedin: '',
@@ -53,7 +54,7 @@ class EditProfile extends Component {
             profile.currentCity = !isEmpty(profile.currentCity) ? profile.currentCity : '';
             profile.homeCity = !isEmpty(profile.homeCity) ? profile.homeCity : '';
             profile.bio = !isEmpty(profile.bio) ? profile.bio : '';
-
+            profile.institute = profile.institute
             profile.social = !isEmpty(profile.social) ? profile.social : {};
 
 
@@ -82,6 +83,7 @@ class EditProfile extends Component {
                 currentCity: profile.currentCity,
                 homeCity: profile.homeCity,
                 bio: profile.bio,
+                institute: profile.institute,
                 twitter: profile.twitter,
                 facebook: profile.facebook,
                 linkedin: profile.linkedin,
@@ -197,6 +199,15 @@ class EditProfile extends Component {
                                     error={errors.handle}
                                     info="A unique handle for your profile URL. Your full name, company name, nickname"
                                 />
+            
+            <TextFieldGroup
+                  placeholder="institute"
+                  name="institute"
+                  value={this.state.institute}
+                  onChange={this.onChange}
+                  error={errors.handle}
+                  info="The current institute"
+                />
 
                                 <TextFieldGroup
                                     placeholder="Enter phoneNo"

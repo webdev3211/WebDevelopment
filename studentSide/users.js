@@ -46,7 +46,17 @@ router.post("/register", (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => res.json(user))
+            .then(user => {
+              const profileFields = {};
+              profileFields.user = user.id;
+              profileFields.handle = user.name;
+              console.log(profileFields);
+              profileFields.institute = req.body.institute;
+              Profile(profileFields)
+                .save()
+                .then(profile => res.json(profile))
+                .catch(err => res.json(err));
+            })
             .catch(err => console.log(err));
         });
       });

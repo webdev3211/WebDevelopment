@@ -16,6 +16,8 @@ const studentController = require("./controller/studentController");
 const profile = require("./studentSide/profile");
 const users = require("./studentSide/users");
 const courses = require("./studentSide/courseEnroll");
+const institute = require("./studentSide/institute");
+
 
 const passport = require("passport");
 
@@ -38,6 +40,7 @@ app.use("/admin", studentController);
 app.use("/profile", profile);
 app.use("/users", users);
 app.use("/course", courses);
+app.use("/institute", institute);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
