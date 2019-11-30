@@ -59,7 +59,7 @@ class allCourses extends Component {
             <div className="feed" style={{ marginBottom: '200px', marginTop: '-20px' }}>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-12">
+                        <div className="col-md-12 coursepanel">
 
 
                             {this.state.courses.map(course => (

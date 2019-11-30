@@ -199,15 +199,15 @@ class EditProfile extends Component {
                                     error={errors.handle}
                                     info="A unique handle for your profile URL. Your full name, company name, nickname"
                                 />
-            
-            <TextFieldGroup
-                  placeholder="institute"
-                  name="institute"
-                  value={this.state.institute}
-                  onChange={this.onChange}
-                  error={errors.handle}
-                  info="The current institute"
-                />
+
+                                <TextFieldGroup
+                                    placeholder="institute"
+                                    name="institute"
+                                    value={this.state.institute}
+                                    onChange={this.onChange}
+                                    error={errors.handle}
+                                    info="The current institute"
+                                />
 
                                 <TextFieldGroup
                                     placeholder="Enter phoneNo"

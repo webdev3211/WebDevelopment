@@ -139,12 +139,12 @@ class App extends Component {
 
 
               <Switch>
-                <PrivateRoute exact path="/admin/courses" component={allCourses} />
+                <Route exact path="/admin/courses" component={allCourses} />
 
               </Switch>
 
               <Switch>
-                <PrivateRouteAdmin exact path="/admin/campusambassador" component={campusAmbassador} />
+                <Route exact path="/admin/campusambassador" component={campusAmbassador} />
 
               </Switch>
 
