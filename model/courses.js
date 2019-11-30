@@ -4,6 +4,7 @@ const CourseSchema = new mongoose.Schema({
   name: {
     type: String
   },
+  studentId: [{ type: String }],
   duration: {
     type: String
   },
@@ -25,7 +26,11 @@ const CourseSchema = new mongoose.Schema({
   },
   fee: { type: Number },
   desc: { type: String },
-  file: { type: String, default: "https://virudhunagar.nic.in/wp-content/themes/district-theme/images/uncategorized.jpg" }
+  file: {
+    type: String,
+    default:
+      "https://virudhunagar.nic.in/wp-content/themes/district-theme/images/uncategorized.jpg"
+  }
 });
 
 const CourseModel = mongoose.model("course", CourseSchema);
