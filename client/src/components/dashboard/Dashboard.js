@@ -128,13 +128,14 @@ class Dashboard extends Component {
               className="lead text-muted "
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <p>
+              <span>
                 Welcome{" "}
                 <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
-              </p>
-              <p>
+              </span>
+              <br />
+              <span>
                 Institute: <strong>{profile.institute}</strong>, class:{" "}
-              </p>
+              </span>
             </p>
             {/* </div> */}
             <ProfileActions />

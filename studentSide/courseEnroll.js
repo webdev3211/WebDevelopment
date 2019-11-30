@@ -4,10 +4,12 @@ const Profile = require("../model/Profile");
 const Institute = require("../model/institute").InstituteModel;
 const Course = require("../model/courses");
 const Registrations = require("../model/registrations").RegistrationModel;
+const mongoose = require("mongoose");
+const passport = require("passport");
 
 // user enrolling to course
 // first the course would be filled with student id
-router.put("/enroll/:id", (req, res) => {
+router.put("/enroll/:id", passport.authenticate("jwt", { session: false }), (req, res) => {
   Course.findOne({ _id: req.params.id })
     .then(course => {
       if (course.contains(req.body.id)) {
