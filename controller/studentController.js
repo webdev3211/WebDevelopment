@@ -75,4 +75,10 @@ router.delete(
       });
   }
 );
+
+router.get("/user/institute/all/:name", (req, res) => {
+  User.find({ institute: req.params.name })
+    .then(user => res.json(user))
+    .catch(err => res.json(err));
+});
 module.exports = router;

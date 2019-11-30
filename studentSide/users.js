@@ -52,6 +52,10 @@ router.post("/register", (req, res) => {
               profileFields.handle = user.name;
               console.log(profileFields);
               profileFields.institute = req.body.institute;
+              profileFields.institute = profileFields.institute.replace(
+                / /g,
+                "_"
+              );
               Profile(profileFields)
                 .save()
                 .then(profile => res.json(profile))
