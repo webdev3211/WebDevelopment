@@ -126,8 +126,8 @@ class Navbar extends Component {
 
 
                 <Link className="navbar-brand" style={{ fontFamily: 'Satisfy', border: 'none', color: 'black', fontWeight: 'bold' }} to="/">
-                    StepUp Analytics
-          </Link>
+                    <img src="https://i.ibb.co/Rc9xgTN/stepup.png" style={{ height: '40px', width: '120px' }} />
+                </Link>
                 <button
                     className="navbar-toggler"
                     type="button"

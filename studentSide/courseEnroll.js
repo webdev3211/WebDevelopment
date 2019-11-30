@@ -18,7 +18,7 @@ router.put(
         // if (course.studentId.contains(req.user.id)) {
         //   console.log("already");
         // } else {
-        course.studentId.unshift(req.body.id);
+        course.studentId.unshift(req.user.id);
         course.save().then(course => console.log(course));
         // after that the profile of that student would be filled with that course id
         Profile.findOne({ user: req.user.id })
@@ -47,7 +47,7 @@ router.put(
 );
 module.exports = router;
 
-Array.prototype.contains = function(needle) {
+Array.prototype.contains = function (needle) {
   for (i in this) {
     if (this[i] == needle) return true;
   }
