@@ -140,11 +140,8 @@ class Navbar extends Component {
                 <div className="collapse navbar-collapse" id="mobile-nav">
                     <ul className="navbar-nav mr-auto">
 
+                        {courseLink}
 
-
-
-
-                        {(isAdminAuthenticated) ? courseLink : null}
                     </ul>
 
 
