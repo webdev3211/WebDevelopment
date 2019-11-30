@@ -30,12 +30,30 @@ const validateInstituteInput = require("../validation/admin/institute");
 
 router.get(
   "/institutes",
-  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     findInstitutes = await Institute.find();
     res.send(findInstitutes);
   }
 );
+
+
+router.get("/institute/:name", (req, res) => {
+  const errors = {};
+
+  Institute.findOne({ name: req.params.name })
+    .then(institute => {
+      if (!institute) {
+        errors.noinstitute = "There is no institute with this id";
+        res.status(404).json(errors);
+      }
+
+      res.json(institute.class);
+    })
+    .catch(err =>
+      res.status(404).json({ institute: "There is no institute with this id" })
+    );
+});
+
 
 router.post("/addInstitute", async (req, res) => {
   // filename = await fileupload(req, res);
@@ -44,25 +62,46 @@ router.post("/addInstitute", async (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  var Class = req.body.class.split(",");
-  var institute = new Institute({
-    name: req.body.name,
-    campusAmbassador: req.body.campusAmbassador,
-    // image: filename,
-    state: req.body.state,
-    city: req.body.city,
-    website: req.body.website,
-    class: Class
-  });
 
-  institute.save((err, docs) => {
-    if (!err) {
-      res.send(docs);
+  Institute.findOne({ name: req.body.name.toUpperCase() }).then(institute => {
+    if (institute) {
+      errors.name = "This institute already exists";
+      return res.status(400).json(errors);
     } else {
-      console.log(JSON.stringify(err));
+
+      var Class = req.body.class.split(",");
+
+      //trim and capatalize
+      for (var i = 0; i < Class.length; i++) {
+        var vall = Class[i];
+        Class[i] = vall.toUpperCase().trim();
+      }
+
+
+
+      var institute = new Institute({
+        name: req.body.name.toUpperCase(),
+        campusAmbassador: req.body.campusAmbassador,
+        // image: filename,
+        state: req.body.state.toUpperCase().trim(),
+        city: req.body.city.toUpperCase().trim(),
+        website: req.body.website,
+        class: Class
+      });
+
+
+      institute.save((err, docs) => {
+        if (!err) {
+          res.send(docs);
+        } else {
+          console.log(JSON.stringify(err));
+        }
+      });
     }
   });
 });
+
+
 
 router.put("/addCampusAmbassador/:id", async (req, res) => {
   id = req.params.id;

@@ -24,7 +24,7 @@ class AdminDashboard extends Component {
 
                         <div className="card text-center" style={{ width: '400px' }}>
                             <div className="card-body ">
-                                <h4 className="card-title">Add Course</h4>
+                                <h5 className="card-title">Add Course</h5>
                                 <Link to="/admin/createCourse" className="btn btn-primary">Click Here</Link>
                             </div>
                         </div>
@@ -32,7 +32,7 @@ class AdminDashboard extends Component {
 
                         <div className="card text-center" style={{ width: '400px' }}>
                             <div className="card-body ">
-                                <h4 className="card-title">Add Material</h4>
+                                <h5 className="card-title">Add Material</h5>
                                 <Link to="/" className="btn btn-primary">Click Here</Link>
                             </div>
                         </div>
@@ -40,7 +40,7 @@ class AdminDashboard extends Component {
 
                         <div className="card text-center" style={{ width: '400px' }}>
                             <div className="card-body ">
-                                <h4 className="card-title">View All Registrations</h4>
+                                <h5 className="card-title">View All Registrations</h5>
                                 <Link to="/" className="btn btn-primary">Click Here</Link>
                             </div>
                         </div>
@@ -48,15 +48,15 @@ class AdminDashboard extends Component {
 
                         <div className="card text-center" style={{ width: '400px' }}>
                             <div className="card-body ">
-                                <h4 className="card-title">View Reviews</h4>
-                                <Link to="/" className="btn btn-primary">Click Here</Link>
+                                <h5 className="card-title">Add/View Campus Ambassador</h5>
+                                <Link to="/admin/campusambassador" className="btn btn-primary">Click Here</Link>
                             </div>
                         </div>
 
 
                         <div className="card text-center" style={{ width: '400px' }}>
                             <div className="card-body ">
-                                <h4 className="card-title">View Workshops</h4>
+                                <h5 className="card-title">View Workshops</h5>
                                 <Link to="/" className="btn btn-primary">Click Here</Link>
                             </div>
                         </div>

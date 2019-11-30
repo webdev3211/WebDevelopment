@@ -31,7 +31,7 @@ import adminLogin from './components/admin/auth/adminLogin';
 import AdminDashboard from './components/admin/admindashboard/AdminDashboard';
 import createCourse from './components/admin/courses/createCourse';
 import allCourses from './components/admin/courses/allCourses';
-
+import campusAmbassador from './components/admin/campusAmbassador';
 
 
 
@@ -139,7 +139,12 @@ class App extends Component {
 
 
               <Switch>
-                <PrivateRouteAdmin exact path="/admin/courses" component={allCourses} />
+                <PrivateRoute exact path="/admin/courses" component={allCourses} />
+
+              </Switch>
+
+              <Switch>
+                <PrivateRouteAdmin exact path="/admin/campusambassador" component={campusAmbassador} />
 
               </Switch>
 

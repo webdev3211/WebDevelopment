@@ -8,6 +8,15 @@ import Moment from 'react-moment';
 
 class CourseItem extends Component {
 
+   
+
+    //Register student on clicking enroll button
+    onClick(courseId){
+
+        console.log(courseId);
+
+    }
+
     render() {
 
         const boxStyle = {
@@ -40,7 +49,12 @@ class CourseItem extends Component {
                         <br />
                         <p className="lead">{course.desc}</p>
                         <br />
-                        <b>Venue: </b> {course.venue}
+                        
+                        <div className="container">
+                            <div className="row">
+
+                            <div className="col-md-8">
+                            <b>Venue: </b> {course.venue}
                         <br />
                         <b>Fee: </b> ₹ {course.fee}
                         <br />
@@ -50,6 +64,15 @@ class CourseItem extends Component {
                         <br />
                         <b>Registration last Date:  </b> <Moment format="DD/MM/YYYY">{course.regLastDate}</Moment>
                         <br />
+                            </div>
+
+                    <div className="col-md-4">
+                    <button  onClick={this.onClick.bind(this, course._id)} className="btn" style={{backgroundColor: 'tomato', color: 'white'}}>Enroll</button>
+                    </div>
+
+                            </div>
+
+                        </div>
 
                     </div>
                 </div>

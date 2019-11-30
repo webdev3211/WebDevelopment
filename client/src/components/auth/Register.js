@@ -31,9 +31,12 @@ class Register extends Component {
   }
   componentDidMount() {
     console.log("heelo");
-    axios.get("/institute/register").then(ins => {
+    axios.get("/admin/institutes").then(ins => {
       this.setState({ options: ins.data });
+      // console.log(this.state.options.selected);
     });
+
+
 
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/");
@@ -49,11 +52,31 @@ class Register extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
 
-    if (this.state.institute) {
-      axios.get(`/institute/register/${this.state.institute}`).then(ins => {
+
+    if (e.target.name === 'institute') {
+
+
+
+      var index = document.getElementsByName("institute")[0].options.selectedIndex;
+      // console.log(index);
+
+      var institutename = document.getElementsByName("institute")[0].options[index].text.trim().toString();
+
+      // this.setState({
+      //   institute: institutename
+      // })
+
+      // console.log(this.state.institute);
+
+      axios.get(`/admin/institute/${institutename}`).then(ins => {
         this.setState({ options1: ins.data });
+        console.log(ins);
       });
     }
+
+
+
+
   }
 
   onSubmit(e) {
@@ -70,10 +93,26 @@ class Register extends Component {
     this.props.registerUser(newUser, this.props.history);
   }
 
+
+
   render() {
     const { errors } = this.state;
     const { options } = this.state;
+
     const { options1 } = this.state;
+    // console.log(options);
+
+    // const options2 = [
+    //   { label: '* Select Professional Status', value: 0 },
+    // { label: 'Developer', value: 'Developer' },
+    // { label: 'Junior Developer', value: 'Junior Developer' },
+    // { label: 'Senior Developer', value: 'Senior Developer' },
+    // { label: 'Manager', value: 'Manager' },
+    // { label: 'Student or Learning', value: 'Student or Learning' },
+    // { label: 'Instructor or Teacher', value: 'Instructor or Teacher' },
+    // { label: 'Intern', value: 'Intern' },
+    // { label: 'Other', value: 'Other' }
+    // ];
 
     return (
       <div className="register" style={{ marginBottom: "100px " }}>
@@ -120,14 +159,16 @@ class Register extends Component {
                   options={options}
                 />
 
-                <SelectListGroup
+                {(this.state.institute) ? <SelectListGroup
                   name="class"
                   placeholder="Enter class"
                   value={this.state.class}
                   error={errors.institute}
                   onChange={this.onChange}
                   options={options1}
-                />
+                /> : null}
+
+
                 <TextFieldGroup
                   name="role"
                   placeholder="Enter role"

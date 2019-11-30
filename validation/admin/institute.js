@@ -8,7 +8,7 @@ module.exports = function validateInstituteInpute(data) {
   data.state = !isEmpty(data.state) ? data.state : "";
   data.city = !isEmpty(data.city) ? data.city : "";
   data.website = !isEmpty(data.website) ? data.website : "";
-  data.class = !isEmpty(data.class) ? data.class : "";
+  // data.class = !isEmpty(data.class) ? data.class : "";
 
   if (Validator.isEmpty(data.name)) {
     errors.name = "name field is required";
@@ -22,9 +22,7 @@ module.exports = function validateInstituteInpute(data) {
   if (!Validator.isURL(data.website)) {
     errors.website = "website is not valid";
   }
-  if (Validator.isEmpty(data.class)) {
-    errors.city = "atleast one class is required";
-  }
+
 
   return {
     errors,
