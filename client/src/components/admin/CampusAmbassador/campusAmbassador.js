@@ -49,18 +49,34 @@ class campusAmbassador extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    onInstituteClick(id){
+    onEditInstituteCampusAmbassador(instituteId) {
 
         // axios.put('/admin/addCampusAmbassador/${id}', (req, res) => {
 
         // })
-        console.log(id);
+        // console.log(id);
+
+        this.props.history.push(`/admin/editCampusAmbassador/${instituteId}`);
+
+
 
     }
 
-    onDeleteClick(id) {
-        
-        console.log(id);
+    onDeleteCampusAmbassador(id) {
+
+        if (window.confirm("Are you sure? This can not be undone")) {
+
+            axios.put(`/admin/removeCampusAmbassador/${id}`, "")
+                .then(res =>
+                    this.props.history.push('/admin/campusAmbassador')
+                )
+                .catch(err =>
+                    console.log(err)
+                );
+        } else {
+            console.log('Delete ambasador operation cancelled')
+        }
+
     }
 
     render() {
@@ -82,19 +98,19 @@ class campusAmbassador extends Component {
         const campusambassadors = institutes.map(ins => (
             <tr key={ins._id}>
                 <td style={{ fontSize: '20px', fontFamily: 'Montserrat' }}>
-                {ins.name}</td>
+                    {ins.name}</td>
                 <td>{ins.campusAmbassador}</td>
                 <td> <button style={{ color: 'green', marginRight: '25px' }}
-                    onClick={this.onInstituteClick.bind(this, ins._id)}
+                    onClick={this.onEditInstituteCampusAmbassador.bind(this, ins._id)}
                 >
                     <i className="fa fa-edit" aria-hidden="true"></i>
                 </button>
-                
-                <button style={{ color: 'red' }}
-                    onClick={this.onDeleteClick.bind(this, ins._id)}
-                >
-                    <i className="fa fa-trash" aria-hidden="true"></i>
-                </button>
+
+                    <button style={{ color: 'red' }}
+                        onClick={this.onDeleteCampusAmbassador.bind(this, ins._id)}
+                    >
+                        <i className="fa fa-trash" aria-hidden="true"></i>
+                    </button>
                 </td>
 
 
@@ -107,6 +123,8 @@ class campusAmbassador extends Component {
 
         return (
             <div >
+                <img src="https://i.ibb.co/b2pvZ8R/Cmps-Ambassdr-Mob.png" style={{ height: '60%', width: '60%', marginBottom: '80px', marginLeft: '300px' }} />
+
                 <h1 className="text-center" style={{ marginTop: "-50px" }}>
                     Campus Ambassadors
 

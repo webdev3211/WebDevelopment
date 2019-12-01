@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Moment from "react-moment";
 import axios from "axios";
+
+import { deletethiscourse } from "../../../actions/admin/courseAction";
+
 
 class CourseItem extends Component {
   //Register student on clicking enroll button
@@ -24,6 +27,7 @@ class CourseItem extends Component {
       isHovering: !state.isHovering,
     };
   }
+
   onClick(courseId) {
 
     axios.put(`/course/enroll/${courseId}`)
@@ -32,6 +36,30 @@ class CourseItem extends Component {
       })
       .catch(err => console.log(err));
   }
+
+
+  viewMaterial(courseId) {
+  }
+
+
+  addMaterial(courseId) {
+  }
+
+
+  viewRegistrations(courseId) {
+  }
+
+
+  onDeleteClick(courseId) {
+    this.props.deletethiscourse(courseId, this.props.history);
+  }
+
+  onUpdateClick(courseId) {
+    this.props.history.push(`/admin/editCourse/${courseId}`);
+  }
+
+
+
 
   render() {
     const boxStyle = {
@@ -71,12 +99,13 @@ class CourseItem extends Component {
                   {course.name}
                 </h3>
                 <br /> */}
-                <p className="lead">{course.desc}</p>
-                <br />
 
                 <div className="container">
                   <div className="row">
                     <div className="col-md-8">
+                      <p className="lead">{course.desc}</p>
+                      <br />
+
                       <b>Venue: </b> {course.venue}
                       <br />
                       <b>Fee: </b> ₹ {course.fee}
@@ -96,10 +125,53 @@ class CourseItem extends Component {
                       <button
                         onClick={this.onClick.bind(this, course._id)}
                         className="btn"
-                        style={{ backgroundColor: "tomato", color: "white" }}
+                        style={{ marginBottom: '10px', backgroundColor: "tomato", color: "white" }}
                       >
                         Enroll
       </button>
+
+                      <button
+                        onClick={this.addMaterial.bind(this, course._id)}
+                        className="btn"
+                        style={{ marginBottom: '10px', backgroundColor: "#9B870C", color: "white" }}
+                      >
+                        Add Material
+      </button>
+
+                      <button
+                        onClick={this.viewRegistrations.bind(this, course._id)}
+                        className="btn"
+                        style={{ marginBottom: '10px', backgroundColor: "green", color: "white" }}
+                      >
+                        Registrations
+      </button>
+
+                      <button
+                        onClick={this.viewMaterial.bind(this, course._id)}
+                        className="btn"
+                        style={{ marginBottom: '10px', backgroundColor: "white", color: "red" }}
+                      >
+                        View Material
+      </button>
+
+                      <span>
+
+                        <button className="pull-left" style={{ color: 'green' }}
+                          onClick={this.onUpdateClick.bind(this, course._id)}
+                        >
+
+                          <i className="fa fa-edit" aria-hidden="true"></i>
+
+                        </button>
+
+                        <button className="pull-right" style={{ marginLeft: '30px', color: 'red' }}
+                          onClick={this.onDeleteClick.bind(this, course._id)}
+                        >
+                          <i className="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+
+                      </span>
+
                     </div>
                   </div>
                 </div>
@@ -117,6 +189,7 @@ class CourseItem extends Component {
 
 CourseItem.propTypes = {
   course: PropTypes.object.isRequired,
+  deletethiscourse: PropTypes.func.isRequired,
   admin: PropTypes.object.isRequired
 };
 
@@ -124,4 +197,4 @@ const mapStateToProps = state => ({
   admin: state.admin
 });
 
-export default connect(mapStateToProps, {})(CourseItem);
+export default connect(mapStateToProps, { deletethiscourse })(withRouter(CourseItem));

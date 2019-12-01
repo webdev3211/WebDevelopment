@@ -54,12 +54,12 @@ class AdminDashboard extends Component {
                         </div>
 
 
-                        <div className="card text-center" style={{ width: '400px' }}>
+                        {/* <div className="card text-center" style={{ width: '400px' }}>
                             <div className="card-body ">
                                 <h5 className="card-title">View Workshops</h5>
                                 <Link to="/" className="btn btn-primary">Click Here</Link>
                             </div>
-                        </div>
+                        </div> */}
 
 
 

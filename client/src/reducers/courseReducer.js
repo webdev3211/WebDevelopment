@@ -26,6 +26,12 @@ export default function (state = initialState, action) {
                 courses: action.payload,
                 // loading: false
             }
+        case GET_COURSE:
+            return {
+                ...state,
+                courses: action.payload,
+                // loading: false
+            }
 
         default:
             return state;
