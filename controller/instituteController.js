@@ -37,22 +37,45 @@ router.get(
 );
 
 
+//GET INSTITUTE BVY NAME
 router.get("/institute/:name", (req, res) => {
   const errors = {};
 
   Institute.findOne({ name: req.params.name })
     .then(institute => {
       if (!institute) {
-        errors.noinstitute = "There is no institute with this id";
+        errors.noinstitute = "There is no institute with this name";
         res.status(404).json(errors);
       }
 
       res.json(institute.class);
     })
     .catch(err =>
+      res.status(404).json({ institute: "There is no institute with this name" })
+    );
+});
+
+
+
+//Get institute by id
+router.get("/institutes/:id", (req, res) => {
+  const errors = {};
+
+  Institute.findOne({ _id: req.params.id })
+
+    .then(institute => {
+      if (!institute) {
+        errors.noinstitute = "There is no institute with this id";
+        res.status(404).json(errors);
+      }
+
+      res.json(institute);
+    })
+    .catch(err =>
       res.status(404).json({ institute: "There is no institute with this id" })
     );
 });
+
 
 
 router.post("/addInstitute", async (req, res) => {
@@ -105,17 +128,34 @@ router.post("/addInstitute", async (req, res) => {
 
 router.put("/addCampusAmbassador/:id", async (req, res) => {
   id = req.params.id;
+  // console.log(id);
+
   var institute = await Institute.findById(id);
-  console.log(institute);
+  // console.log(institute);
+  // console.log(req.body.campusAmbassador);
+
   institute.campusAmbassador = req.body.campusAmbassador || "";
+  // console.log(req.body.studentId);
+
+
   const result = await institute.save();
-  res.send(result);
+
+  Profile.findOneAndUpdate({ user: req.body.studentId }, { isCampusAmbassador: true })
+    .then(user => {
+      // res.json(user);
+
+      res.send(result);
+
+    })
+    .catch(err => res.json(err));
+
+
 });
 
 router.put("/removeCampusAmbassador/:id", async (req, res) => {
   id = req.params.id;
   var institute = await Institute.findById(id);
-  console.log(institute);
+  // console.log(institute);
   institute.campusAmbassador = "";
   const result = await institute.save();
   res.send(result);

@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-// import { Editor } from "react-draft-wysiwyg";
-// import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
+
+import { Editor } from "react-draft-wysiwyg";
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState } from 'draft-js';
 import { createnewcourse } from "../../../actions/admin/courseAction";
-// import TextFieldGroup from '../../common/TextFieldGroup';
+
+
+import SelectListGroup from "../../common/SelectListGroup";
+import axios from 'axios';
 
 class createCourse extends Component {
   constructor(props) {
@@ -21,21 +26,32 @@ class createCourse extends Component {
       regLastDate: "",
       fee: "",
       desc: "",
+
+      options: [],
       // regLink: '',
       // file: '',
-      errors: {}
+      errors: {},
+
+
+
     };
+
+
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    // this.onEditorStateChange = this.onEditorStateChange.bind(this);
+    this.onChangeEditor = this.onChangeEditor.bind(this);
+
   }
 
-  // componentDidMount() {
-  //     if (this.props.admin.isAdminAuthenticated) {
-  //         this.props.history.push('/');
-  //     }
-  // }
+  componentDidMount() {
+    console.log("heelo");
+    axios.get("/admin/institutes").then(ins => {
+      this.setState({ options: ins.data });
+      // console.log(this.state.options.selected);
+    });
+  }
+
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
@@ -47,9 +63,10 @@ class createCourse extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  // onEditorStateChange(e) {
-  //     this.setState({ [e.target.name]: e.target.value })
-  // }
+  onChangeEditor(e) {
+    // console.log(e.blocks[0].text);
+    this.setState({ desc: e.blocks[0].text });
+  }
 
   onSubmit(e) {
     e.preventDefault();
@@ -63,7 +80,7 @@ class createCourse extends Component {
       regLastDate: this.state.regLastDate,
       fee: this.state.fee,
       desc: this.state.desc,
-      regLink: this.state.regLink
+      // regLink: this.state.regLink
       // file: this.state.,
       // errors: {}
     };
@@ -77,6 +94,12 @@ class createCourse extends Component {
     // console.log(this.props);
 
     const { errors } = this.state;
+    // const { contentState } = this.state;
+
+    const { options } = this.state;
+    // options.unshift(
+    //   { label: 'Select Venue', value: 'Select Venue' },
+    // )
 
     return (
       <div>
@@ -115,40 +138,42 @@ class createCourse extends Component {
                 <label htmlFor="desc">Description</label>
               </div>
               <div className="col-md-9">
-                {/* <Editor
-                                    toolbarClassName="toolbarClassName"
-                                    wrapperClassName="wrapperClassName"
-                                    editorClassName="editorClassName"
-                                    onEditorStateChange={this.onEditorStateChange}
-                                    id="desc"
-                                    name="desc"
-                                    // onChange={this.onChange}
-                                    placeholder="Program Description..."
-                                    style={{ height: '200px' }}
-                                /> */}
+                <Editor
 
-                <textarea
+
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                  id="desc"
+                  name="desc"
+
+                  onChange={this.onChangeEditor}
+                  placeholder="Program Description..."
+                  style={{ height: '200px' }}
+                />
+
+                {/* <textarea
                   id="desc"
                   name="desc"
                   onChange={this.onChange}
                   className="form-control"
                   placeholder="Program Description.."
                   style={{ height: "200px" }}
-                ></textarea>
+                ></textarea> */}
               </div>
             </div>
             <br />
-            {/* <br />
-                        <br />
+            <br />
+            <br />
 
-                        <div className="row">
-                            <div className="col-md-3 boldy">
+            <div className="row">
+              <div className="col-md-3 boldy">
 
-                            </div>
-                            <div className="col-md-9">
-                                <hr />
-                            </div>
-                        </div> */}
+              </div>
+              <div className="col-md-9">
+                <hr />
+              </div>
+            </div>
 
             <div className="row">
               <div className="col-md-3 boldy">
@@ -240,7 +265,7 @@ class createCourse extends Component {
                 <label htmlFor="venue">Venue:</label>
               </div>
               <div className="col-md-9">
-                <input
+                {/* <input
                   onChange={this.onChange}
                   type="text"
                   id="venue"
@@ -248,7 +273,20 @@ class createCourse extends Component {
                   name="venue"
                   placeholder="College Name/City Name.."
                 />
+              */}
+
+
+                <SelectListGroup
+                  name="venue"
+                  placeholder="Enter venue"
+                  value={this.state.venue}
+                  error={errors.venue}
+                  onChange={this.onChange}
+                  options={options}
+                  className="form-control"
+                />
               </div>
+
             </div>
             <br />
 

@@ -8,6 +8,8 @@ export const CLEAR_CURRENT_PROFILE = 'CLEAR_CURRENT_PROFILE';
 export const GET_PROFILES = 'GET_PROFILES';
 export const CREATE_COURSE = 'CREATE_COURSE';
 export const GET_COURSES = 'GET_COURSES';
+export const GET_COURSE = 'GET_COURSE';
+
 
 
 

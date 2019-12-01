@@ -29,9 +29,12 @@ import AddPaper from './components/add-credentials/AddPaper';
 import adminRegister from './components/admin/auth/adminRegister';
 import adminLogin from './components/admin/auth/adminLogin';
 import AdminDashboard from './components/admin/admindashboard/AdminDashboard';
+
+
+//Courses
 import createCourse from './components/admin/courses/createCourse';
 import allCourses from './components/admin/courses/allCourses';
-import campusAmbassador from './components/admin/campusAmbassador';
+import editCourse from './components/admin/courses/editCourse';
 
 
 
@@ -44,6 +47,10 @@ import PrivateRouteAdmin from './components/common/PrivateRouteAdmin';
 
 import './App.css';
 import { clearCurrentProfile } from './actions/profileActions';
+
+
+import campusAmbassador from './components/admin/CampusAmbassador/campusAmbassador';
+import editcampusAmbassador from './components/admin/CampusAmbassador/editcampusAmbassador';
 
 
 //Check for token
@@ -137,6 +144,11 @@ class App extends Component {
 
               </Switch>
 
+              <Switch>
+                <PrivateRouteAdmin exact path="/admin/editCourse/:id" component={editCourse} />
+
+              </Switch>
+
 
               <Switch>
                 <Route exact path="/admin/courses" component={allCourses} />
@@ -144,7 +156,13 @@ class App extends Component {
               </Switch>
 
               <Switch>
-                <Route exact path="/admin/campusambassador" component={campusAmbassador} />
+                <PrivateRouteAdmin exact path="/admin/campusambassador" component={campusAmbassador} />
+
+              </Switch>
+
+
+              <Switch>
+                <PrivateRouteAdmin exact path="/admin/editCampusAmbassador/:id" component={editcampusAmbassador} />
 
               </Switch>
 

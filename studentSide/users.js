@@ -7,6 +7,9 @@ const bcrypt = require("bcryptjs");
 const bodyParser = require("body-parser");
 const User = require("../model/User"); // user model
 
+const Institute = require("../model/institute").InstituteModel;
+
+
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 // Load Input Validation
 const validateRegisterInput = require("../validation/register");
@@ -58,7 +61,28 @@ router.post("/register", (req, res) => {
               );
               Profile(profileFields)
                 .save()
-                .then(profile => res.json(profile))
+                .then(profile => {
+
+                  Institute.findOne({ name: req.body.institute })
+                    .then(ins => {
+
+
+                      // console.log(typeof (ins));
+                      // res.json(ins);
+
+
+                      // console.log(ins);
+                      ins.studentId.unshift(user.id);
+
+                      ins
+                        .save()
+                        .then(res => {
+                          return res.json(profile)
+                        })
+                        .catch(err => res.json(err))
+                    })
+
+                })
                 .catch(err => res.json(err));
             })
             .catch(err => console.log(err));

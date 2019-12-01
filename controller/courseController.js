@@ -33,6 +33,26 @@ router.get("/courses", async (req, res) => {
   }
 });
 
+router.get('/course/:courseId', (req, res) => {
+
+  courseId = req.params.courseId;
+
+  Course.findById({ _id: courseId }, (err, course) => {
+
+    if (err) {
+      return res.status(400).json({
+        'msg': 'No course with this courseId'
+      })
+    } else {
+      return res.status(200).json(course);
+    }
+
+  });
+
+
+
+})
+
 router.post("/addCourse", async (req, res) => {
   const { errors, isValid } = validateCourseInput(req.body);
 
@@ -90,17 +110,22 @@ router.put("/updateCourse/:id", async (req, res) => {
   });
 });
 
-router.put("/deleteCourse/:id", async (req, res) => {
+router.delete("/deleteCourse/:id", async (req, res) => {
   id = req.params.id;
+  console.log(id);
 
-  Course.deleteOne({ id: id }, (err, docs) => {
+  Course.findOneAndRemove({ _id: id }, (err, docs) => {
     if (!err) {
-      res.status(200).send({ message: "Course Deleted Successfully " });
+      // let courses = Courses.find({})
+      return res.status(200).send({ message: "Course Deleted Successfully " });
     } else {
-      res.status(400).send({ message: "Course cannot be Deleted " });
+      return res.status(400).send({ message: "Course cannot be Deleted ", data: err });
     }
   });
-  res.send(result);
+  // res.send(result);
+
+
+
 });
 
 module.exports = router;
