@@ -4,6 +4,7 @@ const _admin = require('../model/Admins');
 const express = require('express')
 const Router = express.Router();
 const _ = require('lodash');
+const config = require('../config/keys');
 const jwtHelper = require('../jwtHelper');
 
 /*
@@ -22,12 +23,17 @@ Router.post('/register', (req, res) => {
         phoneNo: req.body.phoneNo
     })
 
+    console.log(admin);
     admin.save((err, docs) => {
         if (!err) {
-            res.send(docs);
+            console.log(docs);
+            res.json(docs);
         } else
+
         if (err.code === 11000)
-            res.status(422).send("duplicate Email Id Found");
+            res.status(422).send("Duplicate Email Id Found");
+        else
+            console.log(JSON.stringify(err.errors));
 
     });
 });
@@ -39,10 +45,8 @@ Router.post('/login', (req, res, next) => {
         } else if (!bcrypt.compareSync(req.body.password, doc.password)) {
             res.status(400).send("Incorrect Password");
         } else {
-            token = jwt.sign({ adminId: doc._id },
-                "thisisiiasidiasdiujasdxadnsdadisjnsiadiasjdiashdaHASHKEY", { expiresIn: '1h' }
-            );
-            res.status(200).json({ token: token });
+            token = jwt.sign({ adminId: doc._id }, config.secretOrKey, { expiresIn: '1h' });
+            res.status(200).json({ token: "bearer " + token });
 
         }
     })
@@ -57,5 +61,6 @@ Router.get('/adminProfile', jwtHelper.verifyToken, (req, res, next) => {
             else
                 return res.status(200).json({ status: true, admin: _.pick(adminR, ['name', 'email']) })
         })
-})
+});
+
 module.exports = Router;

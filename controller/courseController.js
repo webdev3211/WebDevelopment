@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Course = require('../model/courses');
 const express = require('express');
 const router = express.Router();
+const fileupload = require('express-fileupload');
 
 /* 
 
@@ -27,6 +28,10 @@ router.get('/courses', async(req, res) => {
 
 router.post('/addCourse', async(req, res) => {
 
+    var imageFile = req.files.image;
+    // console.log(imageFile);
+    filename = Date.now() + imageFile.name;
+
 
     var course = new Course({
         name: req.body.name,
@@ -39,8 +44,7 @@ router.post('/addCourse', async(req, res) => {
         fee: req.body.fee,
         venue: req.body.venue,
         regLastDate: req.body.regLastDate,
-
-        file: req.body.file
+        file: filename
     });
 
 
@@ -48,12 +52,18 @@ router.post('/addCourse', async(req, res) => {
     course.save((err, docs) => {
         if (!err) {
             res.send(docs);
-            console.log(docs);
         } else {
             console.log(JSON.stringify(err));
         }
     });
 
+    imageFile.mv('uploads/courses/' + filename, (err) => {
+        if (!err) {
+            console.log("SUCCESS : " + filename);
+        } else {
+            console.log("UNSUCcess  : " + JSON.stringify(err));
+        }
+    })
 
 });
 
