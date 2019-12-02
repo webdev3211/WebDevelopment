@@ -10,6 +10,7 @@ import {
 import Spinner from "../common/Spinner";
 import ProfileActions from "./ProfileActions";
 import Experience from "./Experience";
+import Courses from "./Courses";
 import Education from "./Education";
 import Exam from "./Exam";
 import Project from "./Project";
@@ -139,6 +140,8 @@ class Dashboard extends Component {
             </p>
             {/* </div> */}
             <ProfileActions />
+
+            <Courses course={profile.user._id} />
             <Experience experience={profile.experience} />
 
             <Education education={profile.education} />

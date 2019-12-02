@@ -7,7 +7,6 @@ import axios from "axios";
 
 import { deletethiscourse } from "../../../actions/admin/courseAction";
 
-
 class CourseItem extends Component {
   //Register student on clicking enroll button
 
@@ -15,40 +14,27 @@ class CourseItem extends Component {
     super(props);
     this.handleMouseHover = this.handleMouseHover.bind(this);
     this.state = {
-      isHovering: false,
+      colour: "tomato"
     };
   }
   handleMouseHover() {
     this.setState(this.toggleHoverState);
   }
 
-  toggleHoverState(state) {
-    return {
-      isHovering: !state.isHovering,
-    };
-  }
-
   onClick(courseId) {
-
-    axios.put(`/course/enroll/${courseId}`)
+    axios
+      .put(`/course/enroll/${courseId}`)
       .then(() => {
-        console.log('done enrolled');
+        this.props.history.push("/dashboard");
       })
       .catch(err => console.log(err));
   }
 
+  viewMaterial(courseId) {}
 
-  viewMaterial(courseId) {
-  }
+  addMaterial(courseId) {}
 
-
-  addMaterial(courseId) {
-  }
-
-
-  viewRegistrations(courseId) {
-  }
-
+  viewRegistrations(courseId) {}
 
   onDeleteClick(courseId) {
     this.props.deletethiscourse(courseId, this.props.history);
@@ -57,9 +43,6 @@ class CourseItem extends Component {
   onUpdateClick(courseId) {
     this.props.history.push(`/admin/editCourse/${courseId}`);
   }
-
-
-
 
   render() {
     const boxStyle = {
@@ -75,8 +58,10 @@ class CourseItem extends Component {
     return (
       <div className="card card-body" style={boxStyle}>
         <div className="row">
-          <div onMouseEnter={this.handleMouseHover}
-            onMouseLeave={this.handleMouseHover}>
+          <div
+            onMouseEnter={this.handleMouseHover}
+            onMouseLeave={this.handleMouseHover}
+          >
             <Link to="/">
               <img
                 className=""
@@ -85,102 +70,113 @@ class CourseItem extends Component {
                 alt=""
               />
               <span className="pull-right">
-                <h3 className="text-center" style={{ fontFamily: "Montserrat", color: 'black' }}>
+                <h3
+                  className="text-center"
+                  style={{ fontFamily: "Montserrat", color: "black" }}
+                >
                   {course.name}
                 </h3>
                 <br />
               </span>
             </Link>
 
-            {(this.state.isHovering) ?
-
-              <div >
-                {/* <h3 className="text-center" style={{ fontFamily: "Montserrat" }}>
+            <div>
+              {/* <h3 className="text-center" style={{ fontFamily: "Montserrat" }}>
                   {course.name}
                 </h3>
                 <br /> */}
 
-                <div className="container">
-                  <div className="row">
-                    <div className="col-md-8">
-                      <p className="lead">{course.desc}</p>
-                      <br />
+              <div className="container">
+                <div className="row">
+                  <div className="col-md-8">
+                    <p className="lead">{course.desc}</p>
+                    <br />
+                    <b>Venue: </b> {course.venue}
+                    <br />
+                    <b>Fee: </b> ₹ {course.fee}
+                    <br />
+                    <b>Starting Date: </b>{" "}
+                    <Moment format="DD/MM/YYYY">{course.startDate}</Moment>
+                    <br />
+                    <b>Ending Date: </b>{" "}
+                    <Moment format="DD/MM/YYYY">{course.endDate}</Moment>
+                    <br />
+                    <b>Registration last Date: </b>{" "}
+                    <Moment format="DD/MM/YYYY">{course.regLastDate}</Moment>
+                    <br />
+                  </div>
 
-                      <b>Venue: </b> {course.venue}
-                      <br />
-                      <b>Fee: </b> ₹ {course.fee}
-                      <br />
-                      <b>Starting Date: </b>{" "}
-                      <Moment format="DD/MM/YYYY">{course.startDate}</Moment>
-                      <br />
-                      <b>Ending Date: </b>{" "}
-                      <Moment format="DD/MM/YYYY">{course.endDate}</Moment>
-                      <br />
-                      <b>Registration last Date: </b>{" "}
-                      <Moment format="DD/MM/YYYY">{course.regLastDate}</Moment>
-                      <br />
-                    </div>
+                  <div className="col-md-4">
+                    <button
+                      onClick={this.onClick.bind(this, course._id)}
+                      className="btn"
+                      style={{
+                        marginBottom: "10px",
+                        backgroundColor: this.state.colour,
+                        color: "white"
+                      }}
+                    >
+                      Enroll
+                    </button>
 
-                    <div className="col-md-4">
+                    <button
+                      onClick={this.addMaterial.bind(this, course._id)}
+                      className="btn"
+                      style={{
+                        marginBottom: "10px",
+                        backgroundColor: "#9B870C",
+                        color: "white"
+                      }}
+                    >
+                      Add Material
+                    </button>
+
+                    <button
+                      onClick={this.viewRegistrations.bind(this, course._id)}
+                      className="btn"
+                      style={{
+                        marginBottom: "10px",
+                        backgroundColor: "green",
+                        color: "white"
+                      }}
+                    >
+                      Registrations
+                    </button>
+
+                    <button
+                      onClick={this.viewMaterial.bind(this, course._id)}
+                      className="btn"
+                      style={{
+                        marginBottom: "10px",
+                        backgroundColor: "white",
+                        color: "red"
+                      }}
+                    >
+                      View Material
+                    </button>
+
+                    <span>
                       <button
-                        onClick={this.onClick.bind(this, course._id)}
-                        className="btn"
-                        style={{ marginBottom: '10px', backgroundColor: "tomato", color: "white" }}
+                        className="pull-left"
+                        style={{ color: "green" }}
+                        onClick={this.onUpdateClick.bind(this, course._id)}
                       >
-                        Enroll
-      </button>
+                        <i className="fa fa-edit" aria-hidden="true"></i>
+                      </button>
 
                       <button
-                        onClick={this.addMaterial.bind(this, course._id)}
-                        className="btn"
-                        style={{ marginBottom: '10px', backgroundColor: "#9B870C", color: "white" }}
+                        className="pull-right"
+                        style={{ marginLeft: "30px", color: "red" }}
+                        onClick={this.onDeleteClick.bind(this, course._id)}
                       >
-                        Add Material
-      </button>
-
-                      <button
-                        onClick={this.viewRegistrations.bind(this, course._id)}
-                        className="btn"
-                        style={{ marginBottom: '10px', backgroundColor: "green", color: "white" }}
-                      >
-                        Registrations
-      </button>
-
-                      <button
-                        onClick={this.viewMaterial.bind(this, course._id)}
-                        className="btn"
-                        style={{ marginBottom: '10px', backgroundColor: "white", color: "red" }}
-                      >
-                        View Material
-      </button>
-
-                      <span>
-
-                        <button className="pull-left" style={{ color: 'green' }}
-                          onClick={this.onUpdateClick.bind(this, course._id)}
-                        >
-
-                          <i className="fa fa-edit" aria-hidden="true"></i>
-
-                        </button>
-
-                        <button className="pull-right" style={{ marginLeft: '30px', color: 'red' }}
-                          onClick={this.onDeleteClick.bind(this, course._id)}
-                        >
-                          <i className="fa fa-trash" aria-hidden="true"></i>
-                        </button>
-
-                      </span>
-
-                    </div>
+                        <i className="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </span>
                   </div>
                 </div>
               </div>
-
-              : null}
-
+            </div>
           </div>
-
         </div>
       </div>
     );
@@ -197,4 +193,6 @@ const mapStateToProps = state => ({
   admin: state.admin
 });
 
-export default connect(mapStateToProps, { deletethiscourse })(withRouter(CourseItem));
+export default connect(mapStateToProps, { deletethiscourse })(
+  withRouter(CourseItem)
+);

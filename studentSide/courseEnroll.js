@@ -45,9 +45,21 @@ router.put(
       .catch(err => res.json(err));
   }
 );
+
+router.get("/:studentId", (req, res) => {
+  studentId = req.params.studentId;
+
+  Course.find({ studentId: studentId }, (err, course) => {
+    if (err) {
+      return res.status(400).json(err);
+    } else {
+      return res.status(200).json(course);
+    }
+  });
+});
 module.exports = router;
 
-Array.prototype.contains = function (needle) {
+Array.prototype.contains = function(needle) {
   for (i in this) {
     if (this[i] == needle) return true;
   }
