@@ -3,12 +3,12 @@ const bodyparser = require("body-parser");
 const fileupload = require("express-fileupload");
 const cors = require("cors");
 var app = express();
-app.use(fileupload());
-
-
 app.use(cors());
+
+
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: false }));
+app.use(fileupload());
 
 const mongoose = require("./db");
 
