@@ -15,7 +15,8 @@ class campusAmbassador extends Component {
       registrations: [],
       errors: {}
     };
-    this.student = this.student.bind(this);
+
+
   }
 
   componentDidMount() {
@@ -49,22 +50,22 @@ class campusAmbassador extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  student(id) {
-    let student = "";
-    axios
-      .get(`profile/user/${id}`)
-      .then(res => (student = student + res.data.handle))
-      .catch(err => console.log(err));
-    return student;
-  }
-  course(id) {
-    let course = "";
-    axios
-      .get(`admin/course/${id}`)
-      .then(res => (course = course + res.data.name))
-      .catch(err => console.log(err));
-    return course;
-  }
+  // student(id) {
+  //   let student = "";
+  //   axios
+  //     .get(`profile/user/${id}`)
+  //     .then(res => (student = student + res.data.handle))
+  //     .catch(err => console.log(err));
+  //   return student;
+  // }
+  // course(id) {
+  //   let course = "";
+  //   axios
+  //     .get(`admin/course/${id}`)
+  //     .then(res => (course = course + res.data.name))
+  //     .catch(err => console.log(err));
+  //   return course;
+  // }
 
   render() {
     const boxStyle = {
@@ -84,9 +85,11 @@ class campusAmbassador extends Component {
     const viewRegistrations = registrations.map(ins => (
       <tr key={ins._id}>
         <td style={{ fontSize: "20px", fontFamily: "Montserrat" }}>
-          {this.student(ins.studentId)}
+
         </td>
-        <td>{this.course(ins.courseId)}</td>
+        <td>
+
+        </td>
         <td>{ins.amount}</td>
         <td>{ins.institute}</td>
       </tr>
