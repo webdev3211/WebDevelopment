@@ -135,7 +135,8 @@ class Dashboard extends Component {
               </span>
               <br />
               <span>
-                Institute: <strong>{profile.institute}</strong>, class:{" "}
+                Institute: <strong>{profile.institute}</strong>, class:
+                <strong>{profile.class}</strong>
               </span>
             </p>
             {/* </div> */}
