@@ -14,17 +14,43 @@ class CourseItem extends Component {
     super(props);
     // this.handleMouseHover = this.handleMouseHover.bind(this);
     this.state = {
-      colour: "tomato"
+      colour: "tomato",
+      enrolled: false,
+      enroll: "Enroll"
     };
   }
 
-  onClick(courseId) {
+  componentDidMount() {
     axios
-      .put(`/course/enroll/${courseId}`)
-      .then(() => {
-        this.props.history.push("/dashboard");
+      .get(`/course/enroll/${this.props.course._id}`)
+      .then(res => {
+        if (res.data == "enrolled") {
+          this.setState({
+            colour: "lightgreen",
+            enroll: "Enrolled"
+          });
+        }
       })
       .catch(err => console.log(err));
+  }
+
+  onClick(courseId) {
+    // window.alert("already");
+    axios
+      .put(`/course/enroll/${courseId}`)
+      .then(res => {
+        if (res.data == "enrolled") {
+          this.setState({
+            enrolled: true
+          });
+        } else {
+          this.props.history.push("/dashboard");
+        }
+      })
+      .catch(err => console.log(err));
+    if (this.state.enrolled) {
+      window.alert("already enrolled");
+    }
   }
 
   viewMaterial(courseId) {}
@@ -109,7 +135,7 @@ class CourseItem extends Component {
                       color: "white"
                     }}
                   >
-                    Enroll
+                    {this.state.enroll}
                   </button>
 
                   <button
