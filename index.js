@@ -1,8 +1,14 @@
 const express = require("express");
 const bodyparser = require("body-parser");
-const cors = require("cors");
-
 const fileupload = require("express-fileupload");
+const cors = require("cors");
+var app = express();
+app.use(fileupload());
+
+
+app.use(cors());
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: false }));
 
 const mongoose = require("./db");
 
@@ -21,15 +27,9 @@ const institute = require("./studentSide/institute");
 
 const passport = require("passport");
 
-var app = express();
-app.use(cors());
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({ extended: false }));
-
 app.use(passport.initialize()); // passport middleware
 
 require("./config/passport")(passport);
-app.use(fileupload());
 
 app.use("/admin", userController);
 app.use("/admin", registrationsController);
