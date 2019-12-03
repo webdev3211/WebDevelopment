@@ -28,14 +28,10 @@ const validateInstituteInput = require("../validation/admin/institute");
 
 // var upload = multer({ storage: store }).single("file");
 
-router.get(
-  "/institutes",
-  async (req, res) => {
-    findInstitutes = await Institute.find();
-    res.send(findInstitutes);
-  }
-);
-
+router.get("/institutes", async (req, res) => {
+  findInstitutes = await Institute.find();
+  res.send(findInstitutes);
+});
 
 //GET INSTITUTE BVY NAME
 router.get("/institute/:name", (req, res) => {
@@ -46,16 +42,16 @@ router.get("/institute/:name", (req, res) => {
       if (!institute) {
         errors.noinstitute = "There is no institute with this name";
         res.status(404).json(errors);
+      } else {
+        res.json(institute.class);
       }
-
-      res.json(institute.class);
     })
     .catch(err =>
-      res.status(404).json({ institute: "There is no institute with this name" })
+      res
+        .status(404)
+        .json({ institute: "There is no institute with this name" })
     );
 });
-
-
 
 //Get institute by id
 router.get("/institutes/:id", (req, res) => {
@@ -76,8 +72,6 @@ router.get("/institutes/:id", (req, res) => {
     );
 });
 
-
-
 router.post("/addInstitute", async (req, res) => {
   // filename = await fileupload(req, res);
   const { errors, isValid } = validateInstituteInput(req.body);
@@ -91,7 +85,6 @@ router.post("/addInstitute", async (req, res) => {
       errors.name = "This institute already exists";
       return res.status(400).json(errors);
     } else {
-
       var Class = req.body.class.split(",");
 
       //trim and capatalize
@@ -99,8 +92,6 @@ router.post("/addInstitute", async (req, res) => {
         var vall = Class[i];
         Class[i] = vall.toUpperCase().trim();
       }
-
-
 
       var institute = new Institute({
         name: req.body.name.toUpperCase(),
@@ -111,7 +102,6 @@ router.post("/addInstitute", async (req, res) => {
         website: req.body.website,
         class: Class
       });
-
 
       institute.save((err, docs) => {
         if (!err) {
@@ -124,8 +114,6 @@ router.post("/addInstitute", async (req, res) => {
   });
 });
 
-
-
 router.put("/addCampusAmbassador/:id", async (req, res) => {
   id = req.params.id;
   // console.log(id);
@@ -137,19 +125,18 @@ router.put("/addCampusAmbassador/:id", async (req, res) => {
   institute.campusAmbassador = req.body.campusAmbassador || "";
   // console.log(req.body.studentId);
 
-
   const result = await institute.save();
 
-  Profile.findOneAndUpdate({ user: req.body.studentId }, { isCampusAmbassador: true })
+  Profile.findOneAndUpdate(
+    { user: req.body.studentId },
+    { isCampusAmbassador: true }
+  )
     .then(user => {
       // res.json(user);
 
       res.send(result);
-
     })
     .catch(err => res.json(err));
-
-
 });
 
 router.put("/removeCampusAmbassador/:id", async (req, res) => {
