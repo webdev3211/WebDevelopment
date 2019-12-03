@@ -13,12 +13,16 @@ FrontEnd : ReactJs
                 email
                 password
                 phoneNo
+                
     1.2 : Login
         @route : '/admin/login'
         
+        
 3. Courses
     3.1 - Add Courses : 
+    
         3.1.1 @routes : '/admin/addCourse'
+        
         3.1.2 Model : 
                     name
                     studentId
@@ -30,56 +34,97 @@ FrontEnd : ReactJs
                     fee
                     desc
                     file 
+                    
 
     3.2 - View All Courses
+    
         3.2.1 @routes : '/admin/courses'
+        
+
 
     3.3 - Edit Courses
+    
         3.3.1 @route : '/admin/course/courseID'
+        
     
 4. Institute
-    4.1 - View All Institutes :
-        4.1.1 : @routes : '/admin/institutes'
-                Send pageNo as a query 
-                Eg - http//localhost:5000/admin/institutes?:pageno=1
 
-    4.2 - Add Institute :
+    4.1 - View All Institutes :
+    
+        4.1.1 : @routes : '/admin/institutes'
+        
+                Send pageNo as a query 
+                
+                Eg - http//localhost:5000/admin/institutes?:pageno=1
+                
+
+
+    4.2 - Add Institute 
+    
         4.2.1 : @routes : '/admin/addInstitute'
+        
         4.2.2 : Model :
+        
                         name
                         state
                         city
                         website
                         class
+                        
     4.3 - get institute by id
+    
         4.3.1 : @routes : '/admin/institute/instituteId'
+        
     4.4 - get institute by name
+    
         4.4.1 : @routes : '/admin/institute/InstituteName'
+        
     4.5 - Remove Campus Ambassador 
+    
         4.6.1 : @routes : '/admin/removeCampusAmbassador/instituteId'
+        
 
 5. Events
+
     5.1 - View All Events 
+    
         5.1.1 : @routes : '/admin/events'
+        
                 send pageno as a query
+                
     5.2 - Add an Event
+    
         5.2.1 : @routes : '/admin/addEvent/instituteId'
+        
     5.3 - Update an Event
+    
         5.3.1 : @routes : '/admin/updateEvent/eventId'
+        
     5.4 - Delete an Event 
+    
         5.4.1 : @routes : '/admin/deleteEvent/eventId'
+        
+
+
+
 
 6. Registrations
     6.1 view all registrations
             @route : '/admin/registrations'
-                send pageno as query
+            send pageno as query
+            
     6.2 View Registrations by date
         6.2.1: @route :   '/admin/registrationsbydate'
-                        -> send pagenumber query and dateBegin (format yyyy-mm-dd) and dateEnd (format yyyy-mm-dd) as query ::: example : http://localhost:3000/registrationsbydate?pageno=1&dateBegin=2019-11-19
-                        -> result will be the registrations after the date 'dateBegin' and Before the date 'dateEnd'
+        
+               -> send pagenumber query and dateBegin (format yyyy-mm-dd) and dateEnd (format yyyy-mm-dd) as query ::: example : http://localhost:3000/registrationsbydate?pageno=1&dateBegin=2019-11-19
+               -> result will be the registrations after the date 'dateBegin' and Before the date 'dateEnd'
+               
     6.3 View Registrations by course 
+    
         6.3.1 @route : '/admin/registrationsbycourse'
+        
                         send pageno as query
+                        
     6.4 View Registrations by Institute 
         6.4.1 @route : '/admin/registrationsbyinstitute'
                         send pageno as query
