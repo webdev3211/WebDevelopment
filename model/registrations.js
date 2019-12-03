@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
 
 const regSchema = new mongoose.Schema({
   studentId: {
-    type: String
+    type: Schema.Types.ObjectId,
+    ref: "users"
   },
   courseId: {
     type: String

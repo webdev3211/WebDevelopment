@@ -18,7 +18,8 @@ const validateRegistrationInput = require("../validation/admin/registration");
 router.get("/registrations", async (req, res) => {
   pageno = req.query.pageno;
   pagesize = 10;
-  registrations = await Registrations.find()
+  registrations = await Registrations.
+    find().populate('users')
     .skip(pagesize * (pageno - 1))
     .limit(pagesize);
   res.send(registrations);
