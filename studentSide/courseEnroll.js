@@ -30,7 +30,7 @@ router.put(
             registration = new Registrations({
               studentId: req.user.id,
               courseId: req.params.id,
-              paymentId: req.body.paymentId,
+              paymentId: "paymentID",
               amount: course.fee,
               institute: profile.institute
             });
