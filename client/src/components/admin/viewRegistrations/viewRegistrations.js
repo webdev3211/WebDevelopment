@@ -13,8 +13,6 @@ class campusAmbassador extends Component {
       // regLink: '',
       // file: '',
       registrations: [],
-      name: "",
-      course: "course",
       errors: {}
     };
     this.student = this.student.bind(this);
@@ -67,25 +65,6 @@ class campusAmbassador extends Component {
       .catch(err => console.log(err));
     return course;
   }
-  onEditInstituteCampusAmbassador(instituteId) {
-    // axios.put('/admin/addCampusAmbassador/${id}', (req, res) => {
-
-    // })
-    // console.log(id);
-
-    this.props.history.push(`/admin/editCampusAmbassador/${instituteId}`);
-  }
-
-  onDeleteCampusAmbassador(id) {
-    if (window.confirm("Are you sure? This can not be undone")) {
-      axios
-        .put(`/admin/removeCampusAmbassador/${id}`, "")
-        .then(res => this.props.history.push("/admin/campusAmbassador"))
-        .catch(err => console.log(err));
-    } else {
-      console.log("Delete ambasador operation cancelled");
-    }
-  }
 
   render() {
     const boxStyle = {
@@ -106,7 +85,6 @@ class campusAmbassador extends Component {
       <tr key={ins._id}>
         <td style={{ fontSize: "20px", fontFamily: "Montserrat" }}>
           {this.student(ins.studentId)}
-          {/* {ins.studentId} */}
         </td>
         <td>{this.course(ins.courseId)}</td>
         <td>{ins.amount}</td>
@@ -116,16 +94,6 @@ class campusAmbassador extends Component {
 
     return (
       <div>
-        {/* <img
-          src="https://i.ibb.co/b2pvZ8R/Cmps-Ambassdr-Mob.png"
-          style={{
-            height: "60%",
-            width: "60%",
-            marginBottom: "80px",
-            marginLeft: "300px"
-          }}
-        /> */}
-
         <h1 className="text-center" style={{ marginTop: "-50px" }}>
           All Registrations
         </h1>
