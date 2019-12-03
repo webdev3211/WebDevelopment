@@ -57,17 +57,18 @@ router.post("/addCourse", async (req, res) => {
   const { errors, isValid } = validateCourseInput(req.body);
   imageFile = req.files.image;
   filename = Date.now() + imageFile.name;
+  console.log(filename);
   // Check Validation
   
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  imageFile.mv("/uploads/course",(err)=>{
+  imageFile.mv("uploads/course/"+ filename,(err)=>{
     if(!err){
       console.log("FILE UPLOADED SUCCESSFULLY");
     }
     else{
-      console.log("FILE NOT UPLOADED");
+      console.log("FILE NOT UPLOADED :"+ err);
     }
     });
   var course = new Course({
