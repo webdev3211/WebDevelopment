@@ -11,7 +11,7 @@ const regSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  paymentId: { type: String, unique: true },
+  paymentId: { type: String },
   amount: { type: Number },
   institute: { type: String }
 });
