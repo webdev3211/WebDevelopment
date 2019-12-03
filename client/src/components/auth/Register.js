@@ -7,6 +7,7 @@ import TextFieldGroup from "../common/TextFieldGroup";
 
 import SelectListGroup from "../common/SelectListGroup";
 import axios from "axios";
+import classnames from "classnames";
 
 class Register extends Component {
   constructor() {
@@ -17,9 +18,9 @@ class Register extends Component {
       password: "",
       institute: "",
       role: "",
-      options: [],
+      options: ["Enter Institute"],
       class: "",
-      options1: [],
+      options1: ["Enter Class"],
       errors: {}
     };
 
@@ -30,17 +31,25 @@ class Register extends Component {
     return true;
   }
   componentDidMount() {
-    console.log("heelo");
-    axios.get("/admin/institutes").then(ins => {
-      this.setState({ options: ins.data });
-      // console.log(this.state.options.selected);
-    });
-
-
+    axios
+      .get("/admin/institutes")
+      .then(ins => {
+        this.setState({ options: ins.data });
+        // console.log(this.state.options.selected);
+      })
+      .catch(err => console.log(err));
 
     if (this.props.auth.isAuthenticated) {
       this.props.history.push("/");
     }
+  }
+  componentDidUpdate() {
+    axios
+      .get(`/admin/institute/${this.state.institute}`)
+      .then(ins => {
+        this.setState({ options1: ins.data });
+      })
+      .catch(err => console.log(err));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,31 +61,20 @@ class Register extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
 
+    // if (e.target.name === 'institute') {
 
-    if (e.target.name === 'institute') {
+    //   var index = document.getElementsByName("institute")[0].options.selectedIndex;
+    //   // console.log(index);
 
+    //   var institutename = document.getElementsByName("institute")[0].options[index].text.trim().toString();
 
+    //   // this.setState({
+    //   //   institute: institutename
+    //   // })
 
-      var index = document.getElementsByName("institute")[0].options.selectedIndex;
-      // console.log(index);
+    //   // console.log(this.state.institute);
 
-      var institutename = document.getElementsByName("institute")[0].options[index].text.trim().toString();
-
-      // this.setState({
-      //   institute: institutename
-      // })
-
-      // console.log(this.state.institute);
-
-      axios.get(`/admin/institute/${institutename}`).then(ins => {
-        this.setState({ options1: ins.data });
-        console.log(ins);
-      });
-    }
-
-
-
-
+    // }
   }
 
   onSubmit(e) {
@@ -93,13 +91,17 @@ class Register extends Component {
     this.props.registerUser(newUser, this.props.history);
   }
 
-
-
   render() {
     const { errors } = this.state;
     const { options } = this.state;
 
     const { options1 } = this.state;
+
+    const classoption = options1.map(cls => (
+      <option key={cls} value={cls}>
+        {cls}
+      </option>
+    ));
     // console.log(options);
 
     // const options2 = [
@@ -159,15 +161,15 @@ class Register extends Component {
                   options={options}
                 />
 
-                {(this.state.institute) ? <SelectListGroup
+                <select
+                  className={classnames("form-control form-control-lg")}
+                  style={{ marginBottom: 20 }}
                   name="class"
-                  placeholder="Enter class"
                   value={this.state.class}
-                  error={errors.institute}
                   onChange={this.onChange}
-                  options={options1}
-                /> : null}
-
+                >
+                  {classoption}
+                </select>
 
                 <TextFieldGroup
                   name="role"
