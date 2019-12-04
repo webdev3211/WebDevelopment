@@ -7,7 +7,7 @@ const MaterialSchema = new mongoose.Schema({
         required:true
     } ,
     materialFile : {
-        type: [String],
+        type: String,
         unique: true
     }
 });

@@ -5,7 +5,7 @@ const path = require('path');
 
 router.get('/material', (req, res) => {
     const materials = Material.find()
-        .populate('course')
+        .populate('course',["name"])
         .then(docs => {
             // res.json(docs);
             res.json(docs);
@@ -15,66 +15,62 @@ router.get('/material', (req, res) => {
 })
 
 
-router.post('/addMaterials', async(req, res) => {
-    
-    
-    
-    newMaterial = new Material({
-       course: req.body.courseId,
-       materialFile: []
-   });
+router.post('/addMaterials', async (req, res) => {
+    var newMaterial;
+    allmaterials = [];
 
-    async function fileupload(){
-      return new Promise((resolve,reject)=>{
-          var f=1;
-        for(var key in req.files){
-            material = req.files[key];
-           
-           filename = Date.now() + material.name.replace(" ","");
-           newMaterial.materialFile.push(filename);
-           material.mv("uploads/materials/" + filename, (err) => {
-               if (!err) {
-                   console.log("FILE ADDED SUCCESSFULLY NEW COURSE MATERIAL : " + JSON.stringify(newMaterial));
-               }
-               else {
-                   console.log("FILE cannot be added");
-                   f=0;
-               }
-           });
-        }
-        resolve(f);
-      })
-        }
 
+
+    for (var key in req.files) {
+        material = req.files[key];
+
+        filename = Date.now() + material.name.replace(" ", "");
+
+        newMaterial = new Material({
+            course: req.body.courseId,
+            materialFile: filename
+        });
         console.log(newMaterial);
-    
-    const file = await fileupload();
-    
 
-    
-    newMaterial.save()
-        .then(docs => {
-        res.send(docs);
-         })
-        .catch(err => {
-            res.send(err);
+        newMaterial.save((err,docs)=>{
+           
         })
+        
+        allmaterials.push(newMaterial);
+        material.mv("uploads/materials/" + filename, (err) => {
+            if (!err) {
+                console.log("FILE ADDED SUCCESSFULLY NEW COURSE MATERIAL : " + JSON.stringify(newMaterial));
+            }
+            else {
+                console.log("FILE cannot be added");
+
+
+            }
+        });
+    }
+    res.json(allmaterials)
+
+
+
 });
 var options = {
-    root: __dirname + '/../uploads/materials/' 
+    root: __dirname + '/../uploads/materials/'
 };
 router.get('/downloadMaterial/:id', (req, res) => {
     Material.findById(req.params.id).then(doc => {
-        
-        res.download(  __dirname + '/../uploads/materials/' +doc.materialFile,doc.materialFile, (err) => {
-            if (!err) {
-                console.log("nO error");
+        console.log()
+        for (var i = 0; i < doc.materialFile.length; i++) {
 
-            }
-            else {
-                console.log("ERROR :" + err);
-            }
-        });
+            res.download(__dirname + '/../uploads/materials/' + doc.materialFile[i], doc.materialFile[i], (err) => {
+                if (!err) {
+                    console.log("nO error");
+
+                }
+                else {
+                    console.log("ERROR :" + err);
+                }
+            });
+        }
     })
 
 })
