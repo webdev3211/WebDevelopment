@@ -17,6 +17,7 @@ const courseController = require("./controller/courseController");
 const instituteController = require("./controller/instituteController");
 const eventController = require("./controller/eventController");
 const registrationsController = require("./controller/registrationsController");
+const materialController = require('./controller/materialController');
 const studentController = require("./controller/studentController");
 
 const profile = require("./studentSide/profile");
@@ -37,6 +38,7 @@ app.use("/admin", courseController);
 app.use("/admin", instituteController);
 app.use("/admin", eventController);
 app.use("/admin", studentController);
+app.use("/admin", materialController);
 app.use("/profile", profile);
 app.use("/users", users);
 app.use("/course", courses);
