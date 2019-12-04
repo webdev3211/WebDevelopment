@@ -56,7 +56,7 @@ router.get('/course/:courseId', (req, res) => {
 router.post("/addCourse", async (req, res) => {
   const { errors, isValid } = validateCourseInput(req.body);
   imageFile = req.files.image;
-  filename = Date.now() + imageFile.name;
+  filename = Date.now() + imageFile.name.replace(" ","_");
   console.log(filename);
   // Check Validation
   
@@ -90,7 +90,8 @@ router.post("/addCourse", async (req, res) => {
     .then(course => {
       return res.status(200).json({
         msg: "Course uploaded",
-        success: true
+        success: true,
+        course: course
       });
     })
     .catch(err => {
