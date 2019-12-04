@@ -8,30 +8,50 @@ router.get('/material', (req, res) => {
         .populate('course')
         .then(docs => {
             // res.json(docs);
-            console.log(docs);
+            res.json(docs);
         });
 
     // console.log(materials);
 })
 
 
-router.post('/addMaterials', (req, res) => {
-    material = req.files.material;
-    filename = Date.now() + material.name.replace(" ","");
-     newMaterial = new Material({
-        course: req.body.courseId,
-        materialFile: filename
-    });
+router.post('/addMaterials', async(req, res) => {
+    
+    
+    
+    newMaterial = new Material({
+       course: req.body.courseId,
+       materialFile: []
+   });
 
-    material.mv("uploads/materials/" + filename, (err) => {
-        if (!err) {
-            console.log("FILE ADDED SUCCESSFULLY NEW COURSE MATERIAL : " + JSON.stringify(newMaterial));
+    async function fileupload(){
+      return new Promise((resolve,reject)=>{
+          var f=1;
+        for(var key in req.files){
+            material = req.files[key];
+           
+           filename = Date.now() + material.name.replace(" ","");
+           newMaterial.materialFile.push(filename);
+           material.mv("uploads/materials/" + filename, (err) => {
+               if (!err) {
+                   console.log("FILE ADDED SUCCESSFULLY NEW COURSE MATERIAL : " + JSON.stringify(newMaterial));
+               }
+               else {
+                   console.log("FILE cannot be added");
+                   f=0;
+               }
+           });
         }
-        else {
-            console.log("FILE cannot be added");
+        resolve(f);
+      })
         }
-    });
 
+        console.log(newMaterial);
+    
+    const file = await fileupload();
+    
+
+    
     newMaterial.save()
         .then(docs => {
         res.send(docs);
