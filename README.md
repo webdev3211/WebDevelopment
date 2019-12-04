@@ -168,6 +168,29 @@ FrontEnd : ReactJs
     
         7.5.1    @route "/user/institute/all/:name"
 
+8. Materials 
+
+        8.1 Add Materials : 
+
+                8.1.1 @route "admin/addMaterials"
+
+                8.1.2 Model :
+                        course : holds the course Id for reference
+                        materialFile : array of filenames
+
+        8.2 View Materials :
+
+                @route : "admin/material"
+
+        8.3 Download Material 
+        
+                @route :  "/downloadMaterial/:id"
+        
+        8.4 Delete Material 
+
+                @route : "material/:id"
+
+                
 <----------:::::::::::::: Student ::::::::::::::---------->
 
 1. Student Course enroll :
