@@ -5,18 +5,28 @@ const Schema = mongoose.Schema;
 const regSchema = new mongoose.Schema({
   studentId: {
     type: Schema.Types.ObjectId,
-    ref: "users"
+    ref: "users",
+    required: true
   },
   courseId: {
-    type: String
+    type: Schema.Types.ObjectId,
+    ref: 'course',
+    required: true
   },
   dateofRegistration: {
     type: Date,
     default: Date.now
   },
-  paymentId: { type: String },
-  amount: { type: Number },
-  institute: { type: String }
+  paymentId: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  amount: {
+    type: Number,
+    required: true
+  },
+  institute: { type: String, required: true }
 });
 
 module.exports.regSchema = regSchema;

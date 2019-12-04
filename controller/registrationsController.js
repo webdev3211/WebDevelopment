@@ -19,10 +19,14 @@ router.get("/registrations", async (req, res) => {
   pageno = req.query.pageno;
   pagesize = 10;
   registrations = await Registrations.
-    find().populate('users')
+    find().populate('studentId',["name","email"]).populate('courseId',['name',"fee"])
     .skip(pagesize * (pageno - 1))
-    .limit(pagesize);
-  res.send(registrations);
+    .limit(pagesize).then(
+      docs=>{
+        res.json(docs);
+      }
+    );
+  
 });
 
 router.get("/registrationsbydate", async (req, res) => {
