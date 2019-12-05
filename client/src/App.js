@@ -42,6 +42,11 @@ import campusAmbassador from "./components/admin/CampusAmbassador/campusAmbassad
 import editcampusAmbassador from "./components/admin/CampusAmbassador/editcampusAmbassador";
 
 import viewRegistrations from "./components/admin/viewRegistrations/viewRegistrations";
+import addMaterials from "./components/admin/addMaterials/addMaterials";
+import addMaterial from "./components/admin/addMaterials/addMaterial";
+
+
+
 
 //Check for token
 if (localStorage.jwtToken) {
@@ -156,6 +161,22 @@ class App extends Component {
                   exact
                   path="/admin/viewRegistrations"
                   component={viewRegistrations}
+                />
+              </Switch>
+
+              <Switch>
+                <PrivateRouteAdmin
+                  exact
+                  path="/admin/addMaterials"
+                  component={addMaterials}
+                />
+              </Switch>
+
+              <Switch>
+                <PrivateRouteAdmin
+                  exact
+                  path="/admin/addMaterial/:id"
+                  component={addMaterial}
                 />
               </Switch>
 

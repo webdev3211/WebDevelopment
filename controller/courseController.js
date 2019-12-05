@@ -53,24 +53,25 @@ router.get('/course/:courseId', (req, res) => {
 
 })
 
-router.post("/addCourse", async (req, res) => {
+router.post("/addCourse", (req, res) => {
   const { errors, isValid } = validateCourseInput(req.body);
-  imageFile = req.files.image;
-  filename = Date.now() + imageFile.name.replace(" ","_");
+  console.log(req.files);
+  imageFile = req.files.file;
+  filename = Date.now() + imageFile.name.replace(" ", "_");
   console.log(filename);
   // Check Validation
-  
+
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  imageFile.mv("uploads/course/"+ filename,(err)=>{
-    if(!err){
+  imageFile.mv(`../WebDevelopment/client/public/uploads/course/${filename}`, (err) => {
+    if (!err) {
       console.log("FILE UPLOADED SUCCESSFULLY");
     }
-    else{
-      console.log("FILE NOT UPLOADED :"+ err);
+    else {
+      console.log("FILE NOT UPLOADED :" + err);
     }
-    });
+  });
   var course = new Course({
     name: req.body.name,
     // category: req.body.category,
@@ -99,7 +100,7 @@ router.post("/addCourse", async (req, res) => {
     });
 
 
-    
+
 });
 
 router.put("/updateCourse/:id", async (req, res) => {
@@ -114,7 +115,7 @@ router.put("/updateCourse/:id", async (req, res) => {
   course.fee = req.body.fee || course.fee;
   course.venue = req.body.venue || course.venue;
   course.regLastDate = req.body.regLastDate || course.regLastDate;
-  
+
 
   course.save((err, docs) => {
     if (!err) {

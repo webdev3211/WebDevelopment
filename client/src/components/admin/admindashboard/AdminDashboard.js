@@ -26,7 +26,7 @@ class AdminDashboard extends Component {
             <div className="card text-center" style={{ width: "400px" }}>
               <div className="card-body ">
                 <h5 className="card-title">Add Material</h5>
-                <Link to="/" className="btn btn-primary">
+                <Link to="/admin/addMaterials" className="btn btn-primary">
                   Click Here
                 </Link>
               </div>

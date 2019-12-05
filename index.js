@@ -25,12 +25,22 @@ const users = require("./studentSide/users");
 const courses = require("./studentSide/courseEnroll");
 const institute = require("./studentSide/institute");
 
+app.post("/testfile", (req, res) => {
+  console.log(req.files);
 
+})
 const passport = require("passport");
 
 app.use(passport.initialize()); // passport middleware
 
 require("./config/passport")(passport);
+
+app.get('/', (req, res) => {
+  res.json({
+    msg: 'Login'
+  })
+  console.log('Step up analytics web ');
+})
 
 app.use("/admin", userController);
 app.use("/admin", registrationsController);

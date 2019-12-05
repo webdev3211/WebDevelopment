@@ -5,7 +5,7 @@ const path = require('path');
 
 router.get('/material', (req, res) => {
     const materials = Material.find()
-        .populate('course',["name"])
+        .populate('course', ["name"])
         .then(docs => {
             // res.json(docs);
             res.json(docs);
@@ -15,11 +15,11 @@ router.get('/material', (req, res) => {
 })
 
 
-router.post('/addMaterials', async (req, res) => {
+router.post('/addMaterials/:id', (req, res) => {
     var newMaterial;
     allmaterials = [];
 
-
+    console.log(req.files);
 
     for (var key in req.files) {
         material = req.files[key];
@@ -27,17 +27,17 @@ router.post('/addMaterials', async (req, res) => {
         filename = Date.now() + material.name.replace(" ", "");
 
         newMaterial = new Material({
-            course: req.body.courseId,
+            course: req.params.id,
             materialFile: filename
         });
         console.log(newMaterial);
 
-        newMaterial.save((err,docs)=>{
-           
+        newMaterial.save((err, docs) => {
+
         })
-        
+
         allmaterials.push(newMaterial);
-        material.mv("uploads/materials/" + filename, (err) => {
+        material.mv(`../WebDevelopment/client/public/uploads/materials/${filename}`, (err) => {
             if (!err) {
                 console.log("FILE ADDED SUCCESSFULLY NEW COURSE MATERIAL : " + JSON.stringify(newMaterial));
             }

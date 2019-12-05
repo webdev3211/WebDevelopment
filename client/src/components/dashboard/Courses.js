@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import Moment from "react-moment";
 import axios from "axios";
 import { deleteExperience } from "../../actions/profileActions";
+// import Moment from "react-moment";
+
 
 class Courses extends Component {
   constructor(props) {
@@ -25,10 +27,14 @@ class Courses extends Component {
   }
 
   render() {
+    const boxStyle = {
+      boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+      padding: "10px"
+    };
     const course = this.state.courses.map(cos => (
       <tr key={cos._id}>
         <td>{cos.name}</td>
-        <td>{cos.startDate}</td>
+        <td> {cos.startDate}</td>
         <td>{cos.venue}</td>
         {/* <td>
                     <Moment format="YYYY/MM/DD">{exp.fromDate}</Moment> -
@@ -47,8 +53,11 @@ class Courses extends Component {
       </tr>
     ));
 
-    if (this.props.course.length === 0) {
-      return <div>{/* No experience details */}</div>;
+    if (this.state.courses.length === 0) {
+      return (
+        <div style={boxStyle}>
+          <h3 style={{ fontFamily: 'Montserrat' }} className="text-center">No courses Taken</h3>
+        </div>)
     } else {
       return (
         <div
