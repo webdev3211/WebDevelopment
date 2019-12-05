@@ -27,7 +27,7 @@ class editCourse extends Component {
             fee: "",
             desc: "",
             // regLink: '',
-            // file: '',
+            file: '',
             errors: {},
             data: {},
             // editorState: EditorState.createEmpty()
@@ -36,9 +36,11 @@ class editCourse extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeEditor = this.onChangeEditor.bind(this);
+        this.onChange2 = this.onChange2.bind(this);
 
 
     }
+
 
 
     componentDidMount() {
@@ -82,6 +84,12 @@ class editCourse extends Component {
         }
 
 
+    }
+
+    onChange2(e) {
+        this.setState({
+            file: e.target.files[0]
+        })
     }
 
     onChange(e) {

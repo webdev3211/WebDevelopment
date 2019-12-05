@@ -25,17 +25,8 @@ class campusAmbassador extends Component {
     // }
     axios.get("/admin/registrations").then(res => {
       this.setState({ registrations: res.data });
-      // axios.get(`profile/user/${res.studentId}`)
-      // .then(res=>{
-      //     this.setState({name:res.handle})
-      // });
-      // console.log(ins);
-      // for (var i = 0; i < ins.data.length; i++) {
-      //     this.institutes.push(ins.data[i]);
-      // }
-      if (this.state.institutes) {
-        axios.get("/");
-      }
+
+
     });
 
     // console.log(this.state.institutes);
@@ -50,22 +41,8 @@ class campusAmbassador extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  // student(id) {
-  //   let student = "";
-  //   axios
-  //     .get(`profile/user/${id}`)
-  //     .then(res => (student = student + res.data.handle))
-  //     .catch(err => console.log(err));
-  //   return student;
-  // }
-  // course(id) {
-  //   let course = "";
-  //   axios
-  //     .get(`admin/course/${id}`)
-  //     .then(res => (course = course + res.data.name))
-  //     .catch(err => console.log(err));
-  //   return course;
-  // }
+
+
 
   render() {
     const boxStyle = {
@@ -85,10 +62,10 @@ class campusAmbassador extends Component {
     const viewRegistrations = registrations.map(ins => (
       <tr key={ins._id}>
         <td style={{ fontSize: "20px", fontFamily: "Montserrat" }}>
-
+          {ins.studentId.name}
         </td>
         <td>
-
+          {ins.courseId.name}
         </td>
         <td>{ins.amount}</td>
         <td>{ins.institute}</td>

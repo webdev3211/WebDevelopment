@@ -7,6 +7,9 @@ import { connect } from "react-redux";
 import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
+// import ImageUploader from 'react-images-upload';
+
+
 import { createnewcourse } from "../../../actions/admin/courseAction";
 
 
@@ -29,7 +32,7 @@ class createCourse extends Component {
 
       options: [],
       // regLink: '',
-      // file: '',
+      file: '',
       errors: {},
 
 
@@ -37,12 +40,25 @@ class createCourse extends Component {
     };
 
 
+    // this.onDrop = this.onDrop.bind(this);
+
+
 
     this.onChange = this.onChange.bind(this);
+    this.onChange2 = this.onChange2.bind(this);
+
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeEditor = this.onChangeEditor.bind(this);
 
   }
+
+
+  // onDrop(file) {
+  //   this.setState({
+  //     file: this.state.file.concat(file),
+  //   });
+  //   // console.log(this.state.file);
+  // }
 
   componentDidMount() {
     console.log("heelo");
@@ -68,25 +84,55 @@ class createCourse extends Component {
     this.setState({ desc: e.blocks[0].text });
   }
 
-  onSubmit(e) {
+  onChange2(e) {
+    this.setState({
+      file: e.target.files[0]
+    })
+  }
+
+  onSubmit = async e => {
+
     e.preventDefault();
 
-    const newCourse = {
-      name: this.state.name,
-      duration: this.state.duration,
-      startDate: this.state.startDate,
-      endDate: this.state.endDate,
-      venue: this.state.venue,
-      regLastDate: this.state.regLastDate,
-      fee: this.state.fee,
-      desc: this.state.desc,
-      // regLink: this.state.regLink
-      // file: this.state.,
-      // errors: {}
-    };
+    const formData = new FormData();
+    formData.append('file', this.state.file);
+    formData.append('name', this.state.name);
+    formData.append('duration', this.state.duration);
+    formData.append('startDate', this.state.startDate);
+    formData.append('endDate', this.state.endDate);
+    formData.append('venue', this.state.venue);
+    formData.append('regLastDate', this.state.regLastDate);
+    formData.append('fee', this.state.fee);
+    formData.append('desc', this.state.desc);
+
+    try {
+
+      const res = await axios.post('/admin/addCourse', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+      });
+
+      // const { fileName, filePath } = res.data;
+
+      // setUploadedFile({ fileName, filePath });
+
+      // setUrl(filePath);
+
+      console.log('Course created');
+
+    } catch (err) {
+
+      if (err.response.status === 500) {
+        console.log('There was a problem with the server');
+      } else {
+        console.log(err.response.data.msg);
+      }
+
+    }
 
     // console.log(newCourse);
-    this.props.createnewcourse(newCourse, this.props.history);
+    // this.props.createnewcourse(newCourse, this.props.history);
     // console.log(this.state.errors);
   }
 
@@ -296,28 +342,21 @@ class createCourse extends Component {
               </div>
               <div className="col-md-9">
                 <input
-                  onChange={this.onChange}
+                  onChange={this.onChange2}
                   type="file"
                   id="file"
                   className="form-control"
                   name="file"
                 />
               </div>
+
+
+
+
             </div>
             <br />
 
-            {/* <div className="row">
-                                    <div className="col-md-3 boldy">
-                                        <label htmlFor="country">Country</label>
-                                    </div>
-                                    <div className="col-md-9">
-                                        <select id="country" name="country">
-                                            <option value="australia">Australia</option>
-                                            <option value="canada">Canada</option>
-                                            <option value="usa">USA</option>
-                                        </select>
-                                    </div>
-                                </div> */}
+
             <div className="row">
               <input
                 onChange={this.onChange}

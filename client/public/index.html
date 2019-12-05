@@ -18,6 +18,15 @@
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl"
     crossorigin="anonymous"></script>
   <style>
+    .list-group-item {
+      position: relative;
+      display: block;
+      padding: 10px 15px;
+      margin-bottom: -1px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+    }
+
     .adminpanel {
       margin: 0 auto;
       display: grid;
@@ -31,10 +40,20 @@
     .coursepanel {
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(2, 3fr);
-      grid-auto-rows: minmax(50px, auto);
+      grid-template-columns: repeat(1, 3fr);
+      grid-auto-rows: minmax(110px, auto);
       grid-column-gap: 20px;
       grid-row-gap: 60px;
+
+    }
+
+    .coursepanel2 {
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 3fr);
+      grid-auto-rows: minmax(20px, auto);
+      grid-column-gap: 20px;
+      grid-row-gap: 20px;
 
     }
 
