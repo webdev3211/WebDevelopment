@@ -18,28 +18,31 @@ router.put(
         if (course.studentId.contains(req.user.id)) {
           res.send("enrolled");
         } else {
-          course.studentId.unshift(req.user.id);
-          course.save().then(course => console.log(course));
           // after that the profile of that student would be filled with that course id
           Profile.findOne({ user: req.user.id })
             .then(profile => {
-              profile.courses.unshift(course.id);
-              profile.save().then(profile => console.log(profile));
-
-              // after that the registration model would be filled with the course id and student id
               registration = new Registrations({
                 studentId: req.user.id,
                 courseId: req.params.id,
-                paymentId: "paymentID",
+                // paymentId: req.body.pay,
                 amount: course.fee,
                 institute: profile.institute
               });
               registration
                 .save()
-                .then(reg => res.json(reg))
+                .then(reg => {
+                  res.json(reg);
+                  profile.courses.unshift(course.id);
+                  profile.save().then(profile => console.log(profile));
+                  course.studentId.unshift(req.user.id);
+                  course.save().then(course => console.log(course));
+                })
                 .catch(err => res.json(err));
+
+              // after that the registration model would be filled with the course id and student id
             })
             .catch(err => console.log(err));
+
           // }
         }
       })

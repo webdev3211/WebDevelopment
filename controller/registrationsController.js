@@ -18,15 +18,14 @@ const validateRegistrationInput = require("../validation/admin/registration");
 router.get("/registrations", async (req, res) => {
   pageno = req.query.pageno;
   pagesize = 10;
-  registrations = await Registrations.
-    find().populate('studentId',["name","email"]).populate('courseId',['name',"fee"])
+  registrations = await Registrations.find()
+    .populate("studentId", ["name", "email"])
+    .populate("courseId", ["name", "fee"])
     .skip(pagesize * (pageno - 1))
-    .limit(pagesize).then(
-      docs=>{
-        res.json(docs);
-      }
-    );
-  
+    .limit(pagesize)
+    .then(docs => {
+      res.json(docs);
+    });
 });
 
 router.get("/registrationsbydate", async (req, res) => {
@@ -61,7 +60,7 @@ router.post("/addRegistrations", (req, res) => {
   registrations = new Registrations({
     studentId: req.body.studentId,
     courseId: req.body.courseId,
-    paymentId: req.body.paymentId,
+    // paymentId: req.body.paymentId,
     amount: req.body.amount,
     institute: req.body.institute
   });
