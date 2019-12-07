@@ -57,7 +57,9 @@ class CourseItem extends Component {
 
   viewMaterial(courseId) { }
 
-  addMaterial(courseId) { }
+  addMaterial(courseId) {
+    this.props.history.push(`/admin/addMaterial/${courseId}`);
+  }
 
   viewRegistrations(courseId) { }
 

@@ -93,6 +93,14 @@ class Register extends Component {
   }
 
   render() {
+
+    const boxStyle = {
+      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', padding: '10px',
+      // backgroundColor: '#242729'
+      backgroundColor: 'white',
+      padding: '20px',
+      width: '45%'
+    }
     const { errors } = this.state;
     const { options } = this.state;
 
@@ -119,7 +127,7 @@ class Register extends Component {
 
     return (
       <div className="register" style={{ marginBottom: "100px " }}>
-        <div className="container card">
+        <div className="container card" style={boxStyle}>
           <div className="row card-body">
             <div className="col-md-8 m-auto">
               <h1 className="card-header display-4 text-center">Sign Up</h1>

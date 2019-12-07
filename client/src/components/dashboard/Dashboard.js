@@ -103,6 +103,12 @@ class Dashboard extends Component {
       padding: "10px"
     };
 
+    const boxStyle2 = {
+      boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+      padding: "10px",
+      maxWidth: '80%'
+    };
+
     const { user } = this.props.auth;
     const { profile, loading } = this.props.profile;
 
@@ -111,6 +117,7 @@ class Dashboard extends Component {
     // console.log(profile);
 
     let dashboardContent;
+    let courseData;
     let pic;
 
     if (profile === null || loading) {
@@ -120,6 +127,12 @@ class Dashboard extends Component {
 
       // Check if logged in user has profile data
       if (Object.keys(profile).length > 0) {
+
+        courseData = (
+          <Courses course={profile.user._id} />
+
+        )
+
         dashboardContent = (
           <div>
             <br />
@@ -129,20 +142,46 @@ class Dashboard extends Component {
               className="lead text-muted "
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <span>
-                Welcome{" "}
-                <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
-              </span>
-              <br />
-              <span>
-                Institute: <strong>{profile.institute}</strong>, class:
-                <strong>{profile.class}</strong>
-              </span>
+
+              <div className="container">
+                <div className="row">
+                  <div className="col-md-9">
+                    <span>
+                      Welcome{" "}
+                      <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
+                    </span>
+
+                  </div>
+
+                  <div className="col-md-3">
+              <strong>
+              Followers: 0 | Following: 0
+                
+              </strong>
+              <br/>
+              <br/>
+                    <span style={{ marginLeft: '2px' }}>
+                      <i className="fas fa-graduation-cap text-info">
+                      </i>
+                      {' '}
+                      <strong>{profile.institute}</strong>
+
+
+                    </span>
+                    <br/>
+                    <i className="fas fa-graduation-cap text-info">
+                      </i>
+                      {' '}
+                    <strong>{profile.class}</strong>
+
+                  </div>
+                </div>
+              </div>
+
             </p>
             {/* </div> */}
             <ProfileActions />
 
-            <Courses course={profile.user._id} />
             <Experience experience={profile.experience} />
 
             <Education education={profile.education} />
@@ -179,14 +218,15 @@ class Dashboard extends Component {
 
     return (
       <div
-        className="dashboard"
-        style={{ marginBottom: "1000px", marginLeft: "18px" }}
+        className="row"
+        style={{ marginBottom: "1000px", marginLeft: "30px" }}
       >
-        <div className="row">
-          <div className="fb-profile col-md-9" style={{ marginLeft: "20px" }}>
+        {/* <div className="row"> */}
+        <div className="col-md-9" style={{ maxWidth: '100%' }}>
+          <div className="fb-profile" style={boxStyle}>
             <img
               align="left"
-              style={boxStyle}
+              // style={boxStyle}
               className="fb-image-lg"
               src="https://i.ibb.co/8Xx6yD8/7588568-7366b7523095e196beaf0434b81e8e81189b385f.jpg"
               alt="Profile example"
@@ -204,7 +244,43 @@ class Dashboard extends Component {
               {dashboardContent}
             </div>
           </div>
+
+          <br />
+          <br />
+          {courseData}
+
+
         </div>
+
+        <div className="col-md-3">
+
+
+
+          <div className="card" style={boxStyle2}>
+            <div className="card-header"> Sponsored</div>
+            <div className="card-body">
+              <img src="https://storage.googleapis.com/lastcampus/default_images/ewylsponsor.png" alt="st" />
+            </div>
+            <div className="card-footer">Footer</div>
+          </div>
+
+          <br /><br />
+
+
+          <div className="card" style={boxStyle2}>
+            <div className="card-header"> Suggestions </div>
+
+            <div className="card-body">Networking is the key to success</div>
+
+          </div>
+
+
+
+
+
+        </div>
+
+        {/* </div> */}
       </div>
     );
   }

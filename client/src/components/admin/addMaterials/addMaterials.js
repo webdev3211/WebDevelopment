@@ -94,7 +94,7 @@ class campusAmbassador extends Component {
 
                                         <li style={simplestyle} key={course._id} >
 
-                                            <h1 onClick={this.addMaterialToIt.bind(this, course._id)}
+                                            <h1 style={{ cursor: 'pointer' }} onClick={this.addMaterialToIt.bind(this, course._id)}
                                             > {course.name}</h1>
 
                                         </li>

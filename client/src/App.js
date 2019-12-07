@@ -9,6 +9,8 @@ import { setCurrentAdmin, logoutAdmin } from "./actions/admin/authadminActions";
 import store from "./store";
 
 import Navbar from "./components/layout/Navbar";
+import SidebarComponent from "./components/layout/SidebarComponent";
+
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
@@ -103,9 +105,13 @@ class App extends Component {
           <div className="App">
             <Navbar />
 
+            <SidebarComponent />
+
+
+
             <Route exact path="/" component={Landing} />
 
-            <div style={{ marginTop: "120px" }}>
+            <div style={{ marginTop: "50px" }}>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
 
