@@ -51,13 +51,23 @@ class adminRegister extends Component {
     }
 
     render() {
+
+        const boxStyle = {
+            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', padding: '10px',
+            // backgroundColor: '#242729'
+            backgroundColor: 'white',
+            padding: '20px',
+            width: '35%'
+        }
+
+
         const { errors } = this.state;
 
         return (
             <div className="register" style={{ marginBottom: '100px ' }}>
-                <div className="container card">
+                <div className="container card" style={boxStyle}>
                     <div className="row card-body">
-                        <div className="col-md-8 m-auto">
+                        <div className="col-md-10 m-auto">
                             <h1 className="card-header display-4 text-center">Sign Up</h1>
                             <p className="lead text-center">
                                 Create your Admin Account

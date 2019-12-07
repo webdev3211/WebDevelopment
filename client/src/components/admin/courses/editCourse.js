@@ -11,7 +11,7 @@ import { convertFromHTML, EditorState, ContentState } from 'draft-js';
 import { editthiscourse, getCurrentCourse } from "../../../actions/admin/courseAction";
 
 import axios from 'axios';
-import Moment from 'react-moment';
+// import Moment from 'react-moment';
 
 class editCourse extends Component {
     constructor(props) {

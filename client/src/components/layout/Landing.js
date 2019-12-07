@@ -11,7 +11,7 @@ class Landing extends Component {
 
     render() {
         return (
-            <div className="landing">
+            <div className="landing" style={{ marginTop: '-52px' }}>
                 <div className="dark-overlay landing-inner text-light">
                     <div className="container">
                         <div className="row">
@@ -21,8 +21,8 @@ class Landing extends Component {
                                 </h1>
                                 <p className="lead" style={{ fontSize: '50px' }}>
                                     {' '}
-                                    Virtual Classroom
-                </p>
+
+                                </p>
                                 <hr />
 
                             </div>
