@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-
 const regSchema = new mongoose.Schema({
   studentId: {
     type: Schema.Types.ObjectId,
@@ -10,18 +9,18 @@ const regSchema = new mongoose.Schema({
   },
   courseId: {
     type: Schema.Types.ObjectId,
-    ref: 'course',
+    ref: "course",
     required: true
   },
   dateofRegistration: {
     type: Date,
     default: Date.now
   },
-  paymentId: {
-    type: String,
-    required: true,
-    unique: true
-  },
+  // paymentId: {
+  //   type: String,
+  //   required: true,
+  //   unique: true
+  // },
   amount: {
     type: Number,
     required: true
